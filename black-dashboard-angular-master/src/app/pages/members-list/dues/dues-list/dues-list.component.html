@@ -1,0 +1,138 @@
+<div class=" content">
+    <div class=" row">
+        <div class=" col-md-12">
+            <div class=" card card-plain">
+              <div class=" card-header">
+                <h4 class=" card-title">List of Financies</h4>
+                <p class=" category">List of Member's Financies within the Database</p>
+                <div class="row justify-content-between">
+                    <div class="col has-search">
+                        <input type="hidden" class="form-control" placeholder="Search" style="width: 250px;" [(ngModel)]="memTerm">
+                        <input type="text" class="form-control" placeholder="Search" style="width: 250px;" [(ngModel)]="search">
+                    </div>
+                    <div class="col-md-4 text-right d-inline" *ngIf="userbutton">
+                        <button class="btn btn-danger" (click)="open(content, duesForm)">Add Dues</button>
+                    </div>
+                </div>
+            </div>
+              <div class=" card-body">
+                <div class="table-hover">
+                  <table class=" table tablesorter" id="">
+                    <thead class=" text-primary">
+                      <tr>
+                        <th>Member Name</th>
+                        <th>Amount</th>
+                        <th>Date Of Payment</th>
+                        <th>Description</th>
+                        <th class=" text-center">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let dues of duesService.dues | duesFilter: search | paginate: { id: '_id',
+                      itemsPerPage: 8,
+                      currentPage: page,
+                      totalItems: totalRecords }">
+                        <td>{{dues.membername}}</td>
+                        <td>{{ dues.amount | currency: 'GH&cent;'}}</td>
+                        <td>{{dues.dateofpayment | date: "yyyy/M/dd"}}</td>
+                        <td>{{dues.description}}</td>
+                        <td class="text-center">
+                                <i class="btn btn-default btn-link tim-icons icon-pencil" ngbTooltip="Edit Task" (click)="onEdit(content, dues)"></i>
+                                <i class="btn btn-default btn-link tim-icons icon-trash-simple" ngbTooltip="Delete Task" (click)="onDelete(dues._id)"></i>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <pagination-controls  id="_id"
+                    (pageChange)="page = $event"
+                    directionLinks="true"
+                    autoHide="true"
+                    responsive="true"
+                    previousLabel="Previous"
+                    nextLabel="Next"
+                    screenReaderPaginationLabel="Pagination"
+                    screenReaderPageLabel="page"
+                    screenReaderCurrentLabel="You're on page">
+                  </pagination-controls>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+</div>
+
+
+
+
+<ng-template #content let-modal>
+    <div class="modal-content ">
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Dues Form</h4>
+          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form #duesForm="ngForm" (ngSubmit)="onSubmit(duesForm)">
+            
+            <input type="hidden" name="_id" class="form-control" #_id="ngModel" [(ngModel)]="model._id">
+            <input type="hidden" name="classname" class="form-control" #classname="ngModel" [(ngModel)]="model.classname">
+            <input type="hidden" name="userid" class="form-control" #userid="ngModel" [(ngModel)]="model.userid">
+    
+            <div class="form-group">
+              <label for="membername">Member Name</label>
+              <div class="input-group">
+                <select id="membername" class="form-control" placeholder="Member Name" name="membername" #membername="ngModel" [(ngModel)]="model.membername" [ngClass]="{'is-invalid' : membername.touched && !membername.valid }" required>
+                    <option *ngFor="let mem of membersService.members | usersmem: memTerm :'classname'">{{mem.firstname + space + mem.lastname + space + mem.othername}}</option>
+                </select>
+                <div *ngIf="membername.invalid && (membername.dirty || membername.touched)" class="invalid-feedback">
+                    <div *ngIf="membername.errors.required">
+                    This field is required
+                    </div>
+                </div>
+              </div>
+            </div>
+    
+            <div class="form-group">
+              <label for="amount">Amount</label>
+              <div class="input-group">
+                <input id="amount" class="form-control" placeholder="Amount in Ghana Cedis" name="amount" type="number" #amount="ngModel" min="0" [(ngModel)]="model.amount" [ngClass]="{'is-invalid' : amount.touched && !amount.valid }" required>
+                <div *ngIf="amount.invalid && (amount.dirty || amount.touched)" class="invalid-feedback">
+                    <div *ngIf="amount.errors.required">
+                    This field is required
+                    </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+                <label for="dateofpayment">Date Of Payment</label>
+                <div class="input-group">
+                    <input id="dateofpayment" name="dateofpayment" class="form-control" #dateofpayment="ngModel" [(ngModel)]="model.dateofpayment" type="date" placeholder="yyyy-mm-dd"
+                        autocomplete="off" [ngClass]="{'is-invalid' : dateofpayment.touched && !dateofpayment.valid }" required/>
+                        <div *ngIf="dateofpayment.invalid && (dateofpayment.dirty || dateofpayment.touched)" class="invalid-feedback">
+                        <div *ngIf="dateofpayment.errors.required">
+                        This field is required
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description of Payment</label>
+                <div class="input-group">
+                    <input id="description" name="description" class="form-control" #description="ngModel" [(ngModel)]="model.description" type="text"
+                        autocomplete="off" required/>
+                </div>
+            </div>
+
+    
+    
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-info" (click)="onSubmit(duesForm)">Save</button>
+          <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cancel click')">Cancel</button>
+        </div>
+    </div>
+      </ng-template>

@@ -1,0 +1,78 @@
+<div class=" content">
+    <div class=" row">
+        <div class=" col-md-12">
+            <div class=" card card-plain">
+              <div class=" card-header">
+                <h4 class=" card-title">List of Financies</h4>
+                <p class=" category">List of Member's Financies within the Database</p>
+                <div class="row justify-content-between">
+                    <div class="col has-search">
+                        
+                        <div class="d-inline" >
+                        <input type="hidden" class="form-control d-inline" placeholder="Search" style="width: 250px;" [(ngModel)]="memTerm">
+                        <input type="text" class="form-control d-inline" placeholder="Search" style="width: 250px;" [(ngModel)]="search">
+
+                        <div class="form-group d-inline">
+                            Date
+                            <input class="form-control d-inline" type="date" style="width: 160px;" [(ngModel)]="model.startdate">
+                        </div>
+                        <div class="form-group d-inline">
+                            To
+                            <input class="form-control d-inline" type="date" style="width: 160px;" [(ngModel)]="model.enddate">
+                        </div>
+                        
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-right d-inline" style="margin-right: 20px;">
+                        <button class="btn btn-danger btn-sm" (click)="startSearch(model.startdate, model.enddate)">Search</button>
+                        <button class="btn btn-default btn-sm" (click)="clearSearch()">Clear</button>
+
+                        <div ngbDropdown class="btn-group d-inline">
+                            <button class="btn btn-info btn-sm" id="dropdownBasic2" ngbDropdownToggle>Export As</button>
+                            <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
+                              <button ngbDropdownItem (click)="exportexcel()">Excel</button>
+                              <button ngbDropdownItem (click)="downloadPDF()">PDF</button>
+                            </div>
+                    </div>
+                </div>
+            </div>
+              <div class=" card-body" id="thing">
+                <div class="table-hover">
+                  <table class=" table tablesorter" id="content" #content>
+                    <thead class=" text-primary">
+                      <tr>
+                        <th>Member Name</th>
+                        <th>Amount</th>
+                        <th>Date Of Payment</th>
+                        <th>Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let dues of duesService.dues | usersmem: memTerm :'classname' | statementFilter: tempSearch | paginate: { id: '_id',
+                      itemsPerPage: 8,
+                      currentPage: page,
+                      totalItems: totalRecords }">
+                        <td>{{dues.membername}}</td>
+                        <td>{{dues.amount | currency: 'GH&cent;'}}</td>
+                        <td>{{dues.dateofpayment | date: "yyyy/M/dd"}}</td>
+                        <td>{{dues.description}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <pagination-controls  id="_id"
+                  (pageChange)="page = $event"
+                  directionLinks="true"
+                  autoHide="true"
+                  responsive="true"
+                  previousLabel="Previous"
+                  nextLabel="Next"
+                  screenReaderPaginationLabel="Pagination"
+                  screenReaderPageLabel="page"
+                  screenReaderCurrentLabel="You're on page">
+                </pagination-controls>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+</div>
