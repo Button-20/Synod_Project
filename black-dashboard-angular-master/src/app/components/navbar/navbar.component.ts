@@ -207,7 +207,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   startFilter(){
     var payLoad = this.userService.getUserPayload();
     if(payLoad)
-      this.userpic = payLoad.pic, this.class = payLoad.classname;
+      this.userpic = payLoad.pic, this.class = payLoad.role;
     else
       return false 
   }
