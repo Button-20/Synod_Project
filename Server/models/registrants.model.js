@@ -49,10 +49,11 @@ var Registrant = mongoose.model('Registrant', {
     circuitorganisation: {
         type: String
     },
-
     medicalconditon: {
         type: String
-        
+    },
+    regId: {
+        type: String
     },
     created:{
         type: Date,
@@ -60,6 +61,7 @@ var Registrant = mongoose.model('Registrant', {
     },
     saltSecret: String
 });
+
 
 
 module.exports = { Registrant };

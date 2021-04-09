@@ -12,6 +12,14 @@
                     </div>
                     <div class="col-6 text-right" *ngIf="userbutton">
                         <!-- <button  class="btn btn-danger" (click)="open(content, membersForm)">Add Members</button> -->
+						<div ngbDropdown class="btn-group d-inline">
+                            <button class="btn btn-info btn-sm" id="dropdownBasic2" ngbDropdownToggle>Export As</button>
+                            <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
+                              <button ngbDropdownItem (click)="exportexcel()">Excel</button>
+                              <!-- <button ngbDropdownItem (click)="downloadPDF()">PDF</button> -->
+                            </div>
+                    	</div>
+
                     </div>
                 </div>
             </div>
@@ -27,7 +35,8 @@
                         <th>Date Of Birth</th>
                         <th>Phone Number</th>
                         <th>Email</th>
-                        <th>Position</th>
+                        <th>Status</th>
+                        <th>Registration ID</th>
                         <th>Circuit</th>
                         <th>Circuit Organisation</th>
                         <th>Category</th>
@@ -46,6 +55,7 @@
                         <td>{{registrant.phonenumber}}</td>
                         <td>{{registrant.email}}</td>
                         <td>{{registrant.position}}</td>
+                        <td>{{registrant.regId}}</td>
                         <td>{{registrant.circuit}}</td>
                         <td>{{registrant.circuitorganisation}}</td>
                         <td>{{registrant.category}}</td>

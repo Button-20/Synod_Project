@@ -11,4 +11,5 @@ export class Registrant {
     category: string;
     circuitorganisation: string;
     email: string;
+    regId?: string;
 }

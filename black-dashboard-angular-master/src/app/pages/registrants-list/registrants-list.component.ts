@@ -27,7 +27,7 @@ export class RegistrantsListComponent implements OnInit {
     circuit: '',
     category: '',
     circuitorganisation: '',
-    email: ''
+    email: '',
   }
   fileName= 'Registrants_Report.xlsx';
   serverErrorMessages = ''

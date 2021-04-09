@@ -2,20 +2,25 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 var ObjectId = require('mongoose').Types.ObjectId;
 var  { Registrant } = require('../models/registrants.model');
+const uniqueRandomRange = require("unique-random-range");
+let rand = uniqueRandomRange(1, 1000);
+var unirest = require('unirest');
 
 module.exports.register = (req, res, next) => {
+    var randomID = 'ADMCG' + rand();
     var registrant = new Registrant({
-    title: req.body.title,
-    firstname: req.body.firstname,
-    othername: req.body.othername,
-    lastname: req.body.lastname,
-    email: req.body.email,
-    dateofbirth: req.body.dateofbirth,
-    phonenumber: req.body.phonenumber,
-    position: req.body.position,
-    circuit: req.body.circuit,
-    category: req.body.category,
-    circuitorganisation: req.body.circuitorganisation
+        title: req.body.title,
+        firstname: req.body.firstname,
+        othername: req.body.othername,
+        lastname: req.body.lastname,
+        email: req.body.email,
+        dateofbirth: req.body.dateofbirth,
+        phonenumber: req.body.phonenumber,
+        position: req.body.position,
+        circuit: req.body.circuit,
+        category: req.body.category,
+        circuitorganisation: req.body.circuitorganisation,
+        regId: randomID
     })
     
     if (
@@ -32,6 +37,12 @@ module.exports.register = (req, res, next) => {
         res.status(422).send(['Ensure all fields were provided.']);
     }
     else{
+        var req = unirest('GET', `https://deywuro.com/api/sms?username=Billme&password=billme123&source=Synod2021&destination=${registrant.phonenumber}&message=Dear ${registrant.firstname + ' ' + registrant.lastname} your synod2021 online registration is successful . Your registration Id is ${randomID}`)
+            .end(function (res) { 
+                if (res.error) throw new Error(res.error); 
+                console.log(res.raw_body);
+         });
+
             registrant.save((err, doc) => {
                 if (!err)
                     res.send(doc);

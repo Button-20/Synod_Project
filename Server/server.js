@@ -11,7 +11,7 @@ const upload = require('express-fileupload');
 const rtsIndex = require('./routes/index.router');
 
 var app = express();
-var allowedDomains = ['http://localhost:4203', 'http://localhost:4200', 'https://synod-admcg.web.app'];
+var allowedDomains = ['http://localhost:4203', 'http://localhost:4200', 'https://synod-admin.web.app', 'https://synod-admcg.web.app', 'https://paynowafrica.web.app'];
 
 
 // middleware

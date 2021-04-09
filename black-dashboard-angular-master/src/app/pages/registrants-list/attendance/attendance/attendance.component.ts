@@ -72,7 +72,8 @@ export class AttendanceComponent implements OnInit {
 			  res => {
           this.toastr.success('Attendance has been added successfully', 'Attendance Posted');
           this.refreshAttendanceList();
-          this.resetForm(form);			  
+          this.resetForm(form);
+          this.modalService.dismissAll();			  
 			  },
 			  err => {
           if (err.status === 422) {
@@ -87,7 +88,8 @@ export class AttendanceComponent implements OnInit {
 			  res => {
           this.toastr.success('Attendance has been updated successfully', 'Attendance Updated');
           this.refreshAttendanceList();
-          this.resetForm(form);			  
+          this.resetForm(form);
+          this.modalService.dismissAll();			  
           },
           err => {
           if (err.status === 422) {
@@ -104,7 +106,7 @@ export class AttendanceComponent implements OnInit {
     resetForm(form: NgForm) {
       var userPayload = this.userService.getUserPayload();
       if(userPayload)
-      return this.model = {
+      return  this.model = {
         _id: '',
         participant: '',
         date: '',
