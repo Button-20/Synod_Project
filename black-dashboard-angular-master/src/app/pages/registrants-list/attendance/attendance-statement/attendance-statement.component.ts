@@ -1,5 +1,5 @@
-import { UserService } from './../../../../shared/user.service';
-import { Attendance } from './../../../../shared/attendance.model';
+import { UserService } from '../../../../shared/user.service';
+import { Attendance } from '../../../../shared/attendance.model';
 import { AttendanceService } from 'src/app/shared/attendance.service';
 import { Component, OnInit } from '@angular/core';
 import * as XLSX from 'xlsx';
@@ -17,8 +17,10 @@ export class AttendanceStatementComponent implements OnInit {
   tempSearch;
   fileName= 'Attendance_Report.xlsx';
   model = {
-    startdate: '',
-    enddate: ''
+    _id: '',
+    participant: '',
+    date: '',
+    temperature: ''
   }
   page: Number = 1;
   totalRecords: Number;
@@ -57,8 +59,10 @@ export class AttendanceStatementComponent implements OnInit {
     this.search = '';
 
       this.model = {
-        startdate: '',
-        enddate: ''
+        _id: '',
+        participant: '',
+        date: '',
+        temperature: ''
       }
       
       this.refreshAttendanceList();

@@ -44,20 +44,20 @@ export const ROUTES: RouteInfo[] = [
   // },
   {
     path: "/user-list",
-    title: "Registration Management",
+    title: "User Management",
     rtlTitle: "ملف تعريفي للمستخدم",
     icon: "icon-single-02",
     class: "",
-    restrict: "admin"
+    restrict: "user"
   },
-  // {
-  //   path: "/members-list",
-  //   title: "Members Management",
-  //   rtlTitle: "ملف تعريفي للمستخدم",
-  //   icon: "icon-badge",
-  //   class: "",
-  //   restrict: "user"
-  // },
+  {
+    path: "/registrants-list",
+    title: "Registrants Management",
+    rtlTitle: "ملف تعريفي للمستخدم",
+    icon: "icon-badge",
+    class: "",
+    restrict: "user"
+  },
   // {
   //   path: "/dues-list",
   //   title: "Financial Management",

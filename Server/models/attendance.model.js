@@ -1,11 +1,6 @@
 const mongoose = require('mongoose');
 
 var Attendance = mongoose.model('Attendance', {
-    classname: {
-        type: String,
-        required: 'Class Name can\'t be empty',
-        ref: 'User'
-    },
     participant: {
         type: String,
         required: 'Member Name can\'t be empty',

@@ -1,7 +1,7 @@
 require('./config/config');
 require('./models/db');
-require('./config/passportConfig');
-
+require('./config/passportconfig');
+const PORT = process.env.PORT || 3000;
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -33,4 +33,4 @@ app.use((err, req, res, next) => {
 });
 
 // start server
-app.listen(process.env.PORT, () => console.log(`Server started at port : ${process.env.PORT}`));
+app.listen(PORT, () => console.log(`Server started at port : ${PORT}`));

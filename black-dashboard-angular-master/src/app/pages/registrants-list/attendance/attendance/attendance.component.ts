@@ -1,11 +1,11 @@
-import { User } from './../../../../shared/user.model';
+import { Registrant } from './../../../../shared/registrant.model';
+import { RegistrantsService } from './../../../../shared/registrant.service';
+import { User } from '../../../../shared/user.model';
 import { ToastrService } from 'ngx-toastr';
-import { UserService } from './../../../../shared/user.service';
+import { UserService } from '../../../../shared/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgForm } from '@angular/forms';
-import { Members } from './../../../../shared/members.model';
-import { MembersService } from './../../../../shared/members.service';
-import { AttendanceService } from './../../../../shared/attendance.service';
+import { AttendanceService } from '../../../../shared/attendance.service';
 import { Component, OnInit } from '@angular/core';
 import { Attendance } from 'src/app/shared/attendance.model';
 import * as moment from 'moment';
@@ -19,7 +19,6 @@ export class AttendanceComponent implements OnInit {
 
   model = {
     _id: '',
-    classname: '',
     participant: '',
     date: '',
     temperature: null,
@@ -32,17 +31,17 @@ export class AttendanceComponent implements OnInit {
   page: Number = 1;
   totalRecords: Number;
 
-  constructor(public attendanceService: AttendanceService, private modalService: NgbModal, public userService: UserService, private toastr: ToastrService) { }
+  constructor(public attendanceService: AttendanceService, private modalService: NgbModal,public userService: UserService, public registrantsService: RegistrantsService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.startFilter();
-    this.refreshUsersList();
+    this.refreshRegistrantsList();
     this.refreshAttendanceList();
   }
 
-  refreshUsersList(){
-    this.userService.getuserList().subscribe((res) => {
-      this.userService.users = res as User[];
+  refreshRegistrantsList(){
+    this.registrantsService.getRegistrantsList().subscribe((res) => {
+      this.registrantsService.registrants = res as Registrant[];
     })
   }
 
@@ -60,11 +59,11 @@ export class AttendanceComponent implements OnInit {
 
   startFilter(){
     var payLoad = this.userService.getUserPayload();
-    if(payLoad && payLoad.classname == 'Admin'){
+    if(payLoad && payLoad.role == 'Admin'){
       this.memTerm = ''
       this.userbutton = true;
     }else
-      return this.memTerm = payLoad.classname, this.userbutton = true;    
+      return this.memTerm = payLoad.role, this.userbutton = true;    
   }
 
   onSubmit(form: NgForm) {
@@ -107,7 +106,6 @@ export class AttendanceComponent implements OnInit {
       if(userPayload)
       return this.model = {
         _id: '',
-        classname: userPayload.classname,
         participant: '',
         date: '',
         temperature: null,
@@ -129,7 +127,6 @@ export class AttendanceComponent implements OnInit {
   
       this.attendanceService.selectedAttendance = attendance = {
         _id: this.model._id = attendance._id,
-        classname: this.model.classname = attendance.classname,
         participant: this.model.participant = attendance.participant,
         date: this.model.date = this.formattedDate(attendance.date),
         temperature: this.model.temperature = attendance.temperature,

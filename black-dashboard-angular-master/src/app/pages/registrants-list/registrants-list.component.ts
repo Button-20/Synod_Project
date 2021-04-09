@@ -1,32 +1,35 @@
-import { UserService } from './../../shared/user.service';
+import { Registrant } from './../../shared/registrant.model';
+import { RegistrantsService } from './../../shared/registrant.service';
+import { UserService } from '../../shared/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { Members } from './../../shared/members.model';
-import { MembersService } from './../../shared/members.service';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import * as moment from 'moment';
+import * as XLSX from 'xlsx';
 
 @Component({
-  selector: 'app-members-list',
-  templateUrl: './members-list.component.html',
-  styleUrls: ['./members-list.component.scss']
+  selector: 'app-registrants-list',
+  templateUrl: './registrants-list.component.html',
+  styleUrls: ['./registrants-list.component.scss']
 })
-export class MembersListComponent implements OnInit {
+export class RegistrantsListComponent implements OnInit {
   emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   model = {
-    classname: '',
     _id: '',
+    title: '',
     firstname: '',
-    lastname: '',
     othername: '',
-    gender: '',
-    email: '',
-    digitaladdress: '',
-    phonenumber: null,
-    dateofbirth: ''
+    lastname: '',
+    dateofbirth: '',
+    phonenumber: '',
+    position: '',
+    circuit: '',
+    category: '',
+    circuitorganisation: '',
+    email: ''
   }
-
+  fileName= 'Registrants_Report.xlsx';
   serverErrorMessages = ''
   search: string;
   memTerm: string;
@@ -35,7 +38,7 @@ export class MembersListComponent implements OnInit {
   page: Number = 1;
   totalRecords: Number;
 
-  constructor(public membersService: MembersService, private toastr: ToastrService, private modalService: NgbModal, private userService: UserService) { }
+  constructor(public registrantsService: RegistrantsService, private toastr: ToastrService, private modalService: NgbModal, private userService: UserService) { }
 
   ngOnInit(): void {
     this.refreshMembersList();
@@ -43,15 +46,15 @@ export class MembersListComponent implements OnInit {
   }
 
   refreshMembersList(){
-    this.membersService.getMembersList().subscribe((res) => {
-      this.membersService.members = res as Members[];
-      this.totalRecords = this.membersService.members.length;
+    this.registrantsService.getRegistrantsList().subscribe((res) => {
+      this.registrantsService.registrants = res as Registrant[];
+      this.totalRecords = this.registrantsService.registrants.length;
     })
   }
 
   onSubmit(form: NgForm) {
 		if(form.value._id == ''){
-			this.membersService.postMember(form.value).subscribe(
+			this.registrantsService.postRegistrant(form.value).subscribe(
 			  res => {
           this.toastr.success('User has been added successfully', 'User Posted');
           this.refreshMembersList();
@@ -66,7 +69,7 @@ export class MembersListComponent implements OnInit {
 			  }
 			);
 		  }else{
-        this.membersService.putMember(form.value).subscribe(
+        this.registrantsService.putRegistrant(form.value).subscribe(
 			  res => {
           this.toastr.success('User has been updated successfully', 'User Updated');
           this.refreshMembersList();
@@ -87,17 +90,19 @@ export class MembersListComponent implements OnInit {
       var userPayload = this.userService.getUserPayload();
       if(userPayload)
       return this.model = {
-        classname: userPayload.classname,
         _id: '',
+        title: '',
         firstname: '',
-        lastname: '',
         othername: '',
-        gender: '',
-        email: '',
-        digitaladdress: '',
-        phonenumber: null,
-        dateofbirth: ''
-      }
+        lastname: '',
+        dateofbirth: '',
+        phonenumber: '',
+        position: '',
+        circuit: '',
+        category: '',
+        circuitorganisation: '',
+        email: ''
+          }
       else
       return false;
     }
@@ -118,31 +123,48 @@ export class MembersListComponent implements OnInit {
 
     onDelete(_id: string){
       if(confirm('Are you sure you want to delete this record?') == true){
-        this.membersService.deleteMember(_id).subscribe((res => {
+        this.registrantsService.deleteRegistrant(_id).subscribe((res => {
           this.refreshMembersList();
         }));
       }
     }
   
-    onEdit(content, mem: Members) {
+    onEdit(content, registrant: Registrant) {
       this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
   
-      this.membersService.selectedMember = mem = {
-        classname: this.model.classname = mem.classname,
-        _id: this.model._id = mem._id,
-        firstname: this.model.firstname = mem.firstname,
-        lastname: this.model.lastname = mem.lastname,
-        othername: this.model.othername = mem.othername,
-        gender: this.model.gender = mem.gender,
-        email: this.model.email = mem.email,
-        digitaladdress: this.model.digitaladdress = mem.digitaladdress,
-        phonenumber: this.model.phonenumber = mem.phonenumber,
-        dateofbirth: this.model.dateofbirth = this.formattedDate(mem.dateofbirth)
+      this.registrantsService.selectedRegistrant = registrant = {
+        _id: this.model._id = registrant._id,
+        title: this.model.title = registrant.title,
+        firstname: this.model.firstname = registrant.firstname,
+        lastname: this.model.lastname = registrant.lastname,
+        othername: this.model.othername = registrant.othername,
+        email: this.model.email = registrant.email,
+        position: this.model.position = registrant.position,
+        circuit: this.model.circuit = registrant.circuit,
+        category: this.model.category = registrant.category,
+        circuitorganisation: this.model.circuitorganisation = registrant.circuitorganisation,
+        phonenumber: this.model.phonenumber = registrant.phonenumber,
+        dateofbirth: this.model.dateofbirth = this.formattedDate(registrant.dateofbirth)
       }
     }
   
     formattedDate(date) {
       return moment(date).format("yyyy-MM-DD")
+  }
+
+  exportexcel(): void 
+  {
+     /* table id is passed over here */   
+     let element = document.getElementById('content'); 
+     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+     /* generate workbook and add the worksheet */
+     const wb: XLSX.WorkBook = XLSX.utils.book_new();
+     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+     /* save to file */
+     XLSX.writeFile(wb, this.fileName);
+    
   }
 
 }

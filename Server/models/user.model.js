@@ -3,57 +3,23 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 var userSchema = new mongoose.Schema({
-    classname: {
+    fullname: {
         type: String,
-        required: 'Class Name can\'t be empty'
+        required: 'Fullname can\'t be empty'
     },
-    title: {
+    password: {
         type: String,
-        required: 'Title can\'t be empty'
-    },
-    firstname: {
-        type: String,
-        required: 'First Name can\'t be empty'
-    },
-    othername: {
-        type: String,
-        required: 'Other Name can\'t be empty'
-    },
-    lastname: {
-        type: String,
-        required: 'Last Name can\'t be empty'
-    },
-    dateofbirth: {
-        type: String
-        // required: 'Date Of Birth can\'t be empty'
+        required: 'Password can\'t be empty',
+        minlength: [4, 'Password must be at least 4 character long']
     },
     phonenumber: {
         type: String,
-        required: 'Phone Number can\'t be empty'
+        required: 'Phone number can\'t be empty'
     },
     email: {
         type: String,
         required: 'Email can\'t be empty',
         unique: true
-    },
-    position: {
-        type: String,
-        required: 'Position can\'t be empty',
-    },
-    circuit: {
-        type: String,
-        required: 'Circuit can\'t be empty',
-    },
-    category: {
-        type: String,
-        required: 'Category can\'t be empty',
-    },
-    circuitorganisation: {
-        type: String,
-        required: 'Circuit Organisation can\'t be empty',
-    },
-    medicalconditon: {
-        type: String,
     },
     role: {
         type: String,
@@ -63,16 +29,18 @@ var userSchema = new mongoose.Schema({
         type: String,
         default: "assets/img/default-avatar.png"
     },
+    occupation: {
+        type: String,
+        required: 'Occupation can\'t be empty'
+    },
+    address: {
+        type: String,
+        required: 'Address can\'t be empty'
+    },
     loginPermission: {
         type: Boolean,
-        default: false
+        default: true
     },
-    password: {
-        type: String,
-        required: 'Password can\'t be empty',
-        minlength: [4, 'Password must be at least 4 character long']
-    },
-
     created:{
         type: Date,
         default: Date.now()
@@ -104,7 +72,7 @@ userSchema.methods.verifyPassword = function (password) {
 };
 
 userSchema.methods.generateJwt = function () {
-    return jwt.sign({ _id: this._id, role: this.role, classname: this.classname, pic: this.pic, loginPermission: this.loginPermission},
+    return jwt.sign({ _id: this._id, role: this.role, pic: this.pic, loginPermission: this.loginPermission},
         process.env.JWT_SECRET,
     {
         expiresIn: process.env.JWT_EXP

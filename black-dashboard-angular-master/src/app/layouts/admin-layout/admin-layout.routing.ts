@@ -1,8 +1,6 @@
-import { AttendanceStatementComponent } from './../../pages/members-list/attendance/attendance-statement/attendance-statement.component';
-import { DuesStatementComponent } from './../../pages/members-list/dues/dues-statement/dues-statement.component';
-import { AttendanceComponent } from './../../pages/members-list/attendance/attendance/attendance.component';
-import { DuesListComponent } from './../../pages/members-list/dues/dues-list/dues-list.component';
-import { MembersListComponent } from './../../pages/members-list/members-list.component';
+import { AttendanceStatementComponent } from '../../pages/registrants-list/attendance/attendance-statement/attendance-statement.component';
+import { AttendanceComponent } from '../../pages/registrants-list/attendance/attendance/attendance.component';
+import { RegistrantsListComponent } from '../../pages/registrants-list/registrants-list.component';
 import { Routes } from "@angular/router";
 
 import { DashboardComponent } from "../../pages/dashboard/dashboard.component";
@@ -22,7 +20,7 @@ export const AdminLayoutRoutes: Routes = [
   { path: "notifications", component: NotificationsComponent },
   { path: "user", component: UserComponent },
   { path: "user-list", component: UserListComponent },
-  { path: "members-list", component: MembersListComponent },
+  { path: "registrants-list", component: RegistrantsListComponent },
   // { path: "dues-list", component: DuesListComponent },
   // { path: "statement", component: DuesStatementComponent },
   { path: "attendance-statement", component: AttendanceStatementComponent },

@@ -2,8 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const ctrlUser = require('../controllers/user.controller');
-const ctrlMember = require('../controllers/member.controller');
-const ctrlDues = require('../controllers/dues.controller');
+const ctrlRegistrant = require('../controllers/registrants.controller');
 const ctrlAttendance = require('../controllers/attendance.controller');
 
 const jwtHelper = require('../config/jwtHelper');
@@ -17,42 +16,21 @@ router.put('/users/:id', jwtHelper.verifyJwtToken, ctrlUser.put);
 // router.put('/userspermission/:id', ctrlUser.putLoginPermission);
 router.delete('/users/:id', jwtHelper.verifyJwtToken, ctrlUser.delete);
 
-// Member => localhost:3000/api/.......
-router.post('/user/members/register', jwtHelper.verifyJwtToken, ctrlMember.register);
-router.post('/user/uploadExcel/:type', jwtHelper.verifyJwtToken, ctrlMember.create);
-// router.post('/user/members/insertExcel/:type', ctrlMember.uploadExcel);
-router.get('/user/members', jwtHelper.verifyJwtToken, ctrlMember.get);
+// Registrant => localhost:3000/api/.......
+router.post('/registrant', ctrlRegistrant.register);
+router.get('/getallregistrant', jwtHelper.verifyJwtToken, ctrlRegistrant.get);
 
 
 // Admin
-router.get('/user/all', jwtHelper.verifyJwtToken, ctrlUser.getAllCount);
-router.get('/user/ministerscountall', jwtHelper.verifyJwtToken, ctrlUser.getPositionMinisterCount);
-router.get('/user/laycountall', jwtHelper.verifyJwtToken, ctrlUser.getPositionLayCount);
-router.get('/user/visitorscountall', jwtHelper.verifyJwtToken, ctrlUser.getPositionVisitorsCount);
-
-
-// User
-router.get('/user/memberscount/:classname', ctrlMember.getCount);
-router.get('/user/malemembers/:classname', ctrlMember.getMale);
-router.get('/user/femalemembers/:classname', ctrlMember.getFemale);
-router.get('/user/members/:id', ctrlMember.getID);
-router.get('/user/members/classname/:classname', ctrlMember.getClassname);
-router.put('/user/members/:id', ctrlMember.put);
-router.delete('/user/members/:id', ctrlMember.delete);
+router.get('/registrant/countall', jwtHelper.verifyJwtToken, ctrlRegistrant.getAllCount);
+router.get('/registrant/ministerscountall', jwtHelper.verifyJwtToken, ctrlRegistrant.getPositionMinisterCount);
+router.get('/registrant/laycountall', jwtHelper.verifyJwtToken, ctrlRegistrant.getPositionLayCount);
+router.get('/registrant/visitorscountall', jwtHelper.verifyJwtToken, ctrlRegistrant.getPositionVisitorsCount);
+router.get('/registrant/:id', ctrlRegistrant.getID);
+router.put('/registrant/:id', ctrlRegistrant.put);
+router.delete('/user/members/:id', ctrlRegistrant.delete);
 
 /////////////////////////////////////////////////////////////////
-
-// Dues => localhost:3000/api/.......
-router.post('/user/dues/register', ctrlDues.register);
-router.get('/user/dues', ctrlDues.get);
-router.get('/user/dues/:id', ctrlDues.getID);
-router.get('/user/duescount', ctrlDues.getCount);
-router.get('/user/dues/classname/:classname', ctrlDues.getClassname);
-router.get('/user/dues/total/:classname', ctrlDues.getSum);
-router.get('/user/duesalltotal', ctrlDues.getAllSum);
-router.get('/user/alldatafilter/:startdate/:enddate', ctrlDues.getAllDateFilter);
-router.put('/user/dues/:id', ctrlDues.put);
-router.delete('/user/dues/:id', ctrlDues.delete);
 
 // Attendance => localhost:3000/api/.......
 router.post('/user/attendance/register', ctrlAttendance.register);

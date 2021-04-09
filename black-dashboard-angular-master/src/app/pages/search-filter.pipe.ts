@@ -11,10 +11,8 @@ export class SearchFilterPipe implements PipeTransform {
     return user;
 
     return user.filter(user =>
-      user.title.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()) ||
-      user.firstname.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()) ||
-      user.othername.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()) ||
-      user.lastname.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()) ||
+      user.fullname.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()) ||
+      user.phonenumber.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()) ||
       user.email.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()) ||
       user.phonenumber.toString().includes(searchTerm.toLocaleLowerCase()) 
 

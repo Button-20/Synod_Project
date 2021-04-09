@@ -1,4 +1,4 @@
-import { Attendance } from './../../../shared/attendance.model';
+import { Attendance } from '../../../shared/attendance.model';
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({

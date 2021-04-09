@@ -12,10 +12,7 @@ export class UserService {
 
   users: User[];
   selectedUser : User;
-  count: any;
-  ministerscount: any;
-  laycount: any;
-  visitorscount: any;
+
   
   noAuthHeader = {headers: new HttpHeaders({'NoAuth' : 'True'})};
   
@@ -31,24 +28,8 @@ export class UserService {
     return this.http.post(environment.apiBaseUrl + '/register', user);
   }
 
-  getuserList(){
+   getuserList(){
     return this.http.get(environment.apiBaseUrl + '/users');
-  }
-  
-  getAllUserCount(){
-    return this.http.get(environment.apiBaseUrl + '/user/all');
-  }
-
-  getAllPositionMinistersCount(){
-    return this.http.get(environment.apiBaseUrl + '/user/ministerscountall');
-  }
-
-  getAllPositionLayCount(){
-    return this.http.get(environment.apiBaseUrl + '/user/laycountall');
-  }
-
-  getAllPositionVisitorsCount(){
-    return this.http.get(environment.apiBaseUrl + '/user/visitorscountall');
   }
   
   putUser(user: User){

@@ -78,13 +78,12 @@
           <form #attendanceForm="ngForm" (ngSubmit)="onSubmit(attendanceForm)">
             
             <input type="hidden" name="_id" class="form-control" #_id="ngModel" [(ngModel)]="model._id">
-            <input type="hidden" name="classname" class="form-control" #classname="ngModel" [(ngModel)]="model.classname">
     
         <div class="form-group">
             <label for="participant">Participants</label>
             <div class="input-group">
                 <select id="participant" class="form-control" placeholder="Participant's Name" name="participant" #participant="ngModel" [(ngModel)]="model.participant" [ngClass]="{'is-invalid' : participant.touched && !participant.valid }" required>
-                    <option *ngFor="let user of userService.users | usersmem: memTerm :'classname'">{{user.firstname + space + user.lastname + space + user.othername}}</option>
+                    <option *ngFor="let registrant of registrantsService.registrants">{{registrant.firstname + space + registrant.lastname + space + registrant.othername}}</option>
                 </select>
                 <div *ngIf="participant.invalid && (participant.dirty || participant.touched)" class="invalid-feedback">
                     <div *ngIf="participant.errors.required">

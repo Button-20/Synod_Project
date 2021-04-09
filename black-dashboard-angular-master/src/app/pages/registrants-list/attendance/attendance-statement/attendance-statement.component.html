@@ -1,0 +1,80 @@
+<div class=" content">
+    <div class=" row">
+        <div class=" col-md-12">
+            <div class=" card card-plain">
+              <div class=" card-header">
+                <h4 class=" card-title">List of Attendance</h4>
+                <p class=" category">List of Member's Attendance within the Database</p>
+                <div class="row justify-content-between">
+                    <div class="col has-search">
+                        
+                        <div class="d-inline" >
+                        <input type="hidden" class="form-control d-inline" placeholder="Search" style="width: 250px;" [(ngModel)]="memTerm">
+                        <input type="text" class="form-control d-inline" placeholder="Search" style="width: 250px;" [(ngModel)]="search">
+
+                        <div class="form-group d-inline">
+                            Date
+                            <input class="form-control d-inline" type="date" style="width: 160px;" [(ngModel)]="model.startdate">
+                        </div>
+                        <div class="form-group d-inline">
+                            To
+                            <input class="form-control d-inline" type="date" style="width: 160px;" [(ngModel)]="model.enddate">
+                        </div>
+                        
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-right d-inline" style="margin-right: 20px;">
+                        <button class="btn btn-danger btn-sm" (click)="startSearch(model.startdate, model.enddate)">Search</button>
+                        <button class="btn btn-default btn-sm" (click)="clearSearch()">Clear</button>
+
+                        <div ngbDropdown class="btn-group d-inline">
+                            <button class="btn btn-info btn-sm" id="dropdownBasic2" ngbDropdownToggle>Export As</button>
+                            <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
+                              <button ngbDropdownItem (click)="exportexcel()">Excel</button>
+                              <!-- <button ngbDropdownItem (click)="downloadPDF()">PDF</button> -->
+                            </div>
+                    </div>
+                </div>
+            </div>
+              <div class=" card-body">
+                <div class="table-hover">
+                  <table class=" table tablesorter" id="content" #content>
+                    <thead class=" text-primary">
+                      <tr>
+                        <th>Participants</th>
+                        <th>Date</th>
+                        <th>Temperature</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let attendance of attendanceService.attendance | attendanceFilter: tempSearch | paginate: { id: '_id',
+                      itemsPerPage: 7,
+                      currentPage: page,
+                      totalItems: totalRecords }">
+                        <td>{{attendance.participant}}</td>
+                        <td>{{attendance.date | date: "yyyy/M/dd"}}</td>
+                        <td>{{attendance.temperature}}°C</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <pagination-controls  id="_id"
+                  (pageChange)="page = $event"
+                  directionLinks="true"
+                  autoHide="true"
+                  responsive="true"
+                  previousLabel="Previous"
+                  nextLabel="Next"
+                  screenReaderPaginationLabel="Pagination"
+                  screenReaderPageLabel="page"
+                  screenReaderCurrentLabel="You're on page">
+                </pagination-controls>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+</div>
+
+
+
+

@@ -1,7 +1,5 @@
-import { DuesTotal } from './../../shared/duesTotal.model';
-import { UserService } from './../../shared/user.service';
-import { DuesService } from './../../shared/dues.service';
-import { MembersService } from './../../shared/members.service';
+import { UserService } from '../../shared/user.service';
+import { RegistrantsService } from '../../shared/registrant.service';
 import { Component, OnInit } from "@angular/core";
 import { AttendanceService } from 'src/app/shared/attendance.service';
 
@@ -14,11 +12,11 @@ export class DashboardComponent implements OnInit {
   memTerm: '';
 
   
-  constructor(public membersService: MembersService, public duesService: DuesService, private userService: UserService, private attendanceService: AttendanceService ) {}
+  constructor(public registrantsService: RegistrantsService, private userService: UserService, private attendanceService: AttendanceService ) {}
   
   ngOnInit(): void {
     this.startFilter();
-    this.refreshAllUsersCount();
+    this.refreshAllRegistrantsCount();
     this.refreshAllAttendanceCount();
     this.refreshAllMinistersCount();
     this.refreshAllLayCount();
@@ -29,9 +27,9 @@ export class DashboardComponent implements OnInit {
   /////////////////////////////////////////------Admin-------/////////////////////////////////////////////////////
 
   
-  refreshAllUsersCount(){
-    this.userService.getAllUserCount().subscribe((res) => {
-      this.userService.count = res;
+  refreshAllRegistrantsCount(){
+    this.registrantsService.getAllRegistrantsCount().subscribe((res) => {
+      this.registrantsService.count = res;
     })
   }
 
@@ -42,20 +40,20 @@ export class DashboardComponent implements OnInit {
   }
 
   refreshAllMinistersCount(){
-    this.userService.getAllPositionMinistersCount().subscribe((res) => {
-      this.userService.ministerscount = res;
+    this.registrantsService.getAllPositionMinistersCount().subscribe((res) => {
+      this.registrantsService.ministerscount = res;
     })
   }
 
   refreshAllLayCount(){
-    this.userService.getAllPositionLayCount().subscribe((res) => {
-      this.userService.laycount = res;
+    this.registrantsService.getAllPositionLayCount().subscribe((res) => {
+      this.registrantsService.laycount = res;
     })
   }
 
   refreshAllVisitorsCount(){
-    this.userService.getAllPositionVisitorsCount().subscribe((res) => {
-      this.userService.visitorscount = res;
+    this.registrantsService.getAllPositionVisitorsCount().subscribe((res) => {
+      this.registrantsService.visitorscount = res;
     })
   }
 

@@ -14,22 +14,15 @@ import * as XLSX from 'xlsx';
 })
 export class UserListComponent implements OnInit {
   model = {
-		_id: "",
-		classname: "",
-		title: "",
-		firstname: "",
-		othername: "",
-		lastname: "",
-		phonenumber: "",
-    dateofbirth: "",
-    position: "",
-    circuit: "",
-    category: "",
-    circuitorganisation: "",
-    email: "",
-    password: "",
-    role: "",
-    loginPermission: false
+		_id: '',
+    fullname: '',
+    phonenumber: '',
+    address: '',
+    occupation: '',
+    email: '',
+    password: '',
+    role: '',
+    loginPermission: true
   }
   serverErrorMessages = ''
   search: string;
@@ -65,23 +58,16 @@ export class UserListComponent implements OnInit {
     this.showPass = true;
 
   
-    this.model = {
-      _id: "",
-      classname: "",
-      title: "",
-      firstname: "",
-      othername: "",
-      lastname: "",
-      phonenumber: "",
-      dateofbirth: "",
-      position: "",
-      circuit: "",
-      category: "",
-      circuitorganisation: "",
-      email: "",
-      password: "",
-      role: "",
-      loginPermission: false
+    this.model={
+      _id: '',
+      fullname: '',
+      phonenumber: '',
+      address: '',
+      occupation: '',
+      email: '',
+      password: '',
+      role: '',
+      loginPermission: true  
     }
   
   }
@@ -93,21 +79,15 @@ export class UserListComponent implements OnInit {
 
     this.userService.selectedUser = user = {
       _id: this.model._id = user._id,
-      classname: this.model.classname = user.classname,
-      title: this.model.title = user.title,
-      firstname: this.model.firstname = user.firstname,
-      othername: this.model.othername = user.othername,
-      lastname: this.model.lastname = user.lastname,
+      fullname: this.model.fullname = user.fullname,
       phonenumber: this.model.phonenumber = user.phonenumber,
-      dateofbirth: this.model.dateofbirth = this.formattedDate(user.dateofbirth),
-      position: this.model.position = user.position,
-      circuit: this.model.circuit = user.circuit,
-      category: this.model.category = user.category,
-      circuitorganisation: this.model.circuitorganisation = user.circuitorganisation,
+      address: this.model.address = user.address,
+      occupation: this.model.occupation = user.occupation,
       email: this.model.email = user.email,
       password: this.model.password = user.password,
       role: this.model.role = user.role,
-      loginPermission: this.model.loginPermission = user.loginPermission
+      loginPermission: this.model.loginPermission = user.loginPermission,
+  
     }
 
     
