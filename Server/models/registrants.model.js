@@ -18,7 +18,6 @@ var Registrant = mongoose.model('Registrant', {
         type: String,
         required: 'Last Name can\'t be empty'
     },
-
     dateofbirth: {
         type: String,
         required: 'Date Of Birth can\'t be empty'
@@ -35,6 +34,7 @@ var Registrant = mongoose.model('Registrant', {
     },
     position: {
         type: String,
+        required: 'Position can\'t be empty',
     },
 
     circuit: {
@@ -47,11 +47,11 @@ var Registrant = mongoose.model('Registrant', {
         required: 'Category can\'t be empty',
     },
     circuitorganisation: {
-        type: String,
+        type: String
     },
 
     medicalconditon: {
-        type: String,
+        type: String
         
     },
     created:{

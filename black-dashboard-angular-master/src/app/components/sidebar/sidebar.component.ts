@@ -124,7 +124,7 @@ export class SidebarComponent implements OnInit {
   startFilter(){
     var payLoad = this.userService.getUserPayload();
 
-    if(payLoad && payLoad.classname == 'Admin')
+    if(payLoad && payLoad.role == 'Admin')
     {
       this.menuItems = ROUTES.filter(menuItem => menuItem);
     }

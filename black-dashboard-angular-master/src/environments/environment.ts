@@ -4,7 +4,7 @@
 
 export const environment = {
   production: true,
-  apiBaseUrl: "http://localhost:3000/api"
+  apiBaseUrl: "https://peaceful-cove-68502.herokuapp.com/api"
 };
 
 /*
