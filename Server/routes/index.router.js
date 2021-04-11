@@ -22,13 +22,14 @@ router.get('/getallregistrant', jwtHelper.verifyJwtToken, ctrlRegistrant.get);
 
 
 // Admin
+router.get('/verifycode/:regId', ctrlRegistrant.getRegIdCount);
 router.get('/registrant/countall', jwtHelper.verifyJwtToken, ctrlRegistrant.getAllCount);
 router.get('/registrant/ministerscountall', jwtHelper.verifyJwtToken, ctrlRegistrant.getPositionMinisterCount);
 router.get('/registrant/laycountall', jwtHelper.verifyJwtToken, ctrlRegistrant.getPositionLayCount);
 router.get('/registrant/visitorscountall', jwtHelper.verifyJwtToken, ctrlRegistrant.getPositionVisitorsCount);
 router.get('/registrant/:id', ctrlRegistrant.getID);
 router.put('/registrant/:id', ctrlRegistrant.put);
-router.delete('/user/members/:id', ctrlRegistrant.delete);
+router.delete('/registrant/:id', ctrlRegistrant.delete);
 
 /////////////////////////////////////////////////////////////////
 

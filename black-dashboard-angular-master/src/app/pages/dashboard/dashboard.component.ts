@@ -2,7 +2,7 @@ import { UserService } from '../../shared/user.service';
 import { RegistrantsService } from '../../shared/registrant.service';
 import { Component, OnInit } from "@angular/core";
 import { AttendanceService } from 'src/app/shared/attendance.service';
-
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: "app-dashboard",
@@ -12,9 +12,10 @@ export class DashboardComponent implements OnInit {
   memTerm: '';
 
   
-  constructor(public registrantsService: RegistrantsService, private userService: UserService, private attendanceService: AttendanceService ) {}
+  constructor(private spinner: NgxSpinnerService, public registrantsService: RegistrantsService, private userService: UserService, private attendanceService: AttendanceService ) {}
   
   ngOnInit(): void {
+    this.spinner.show();
     this.startFilter();
     this.refreshAllRegistrantsCount();
     this.refreshAllAttendanceCount();
@@ -30,30 +31,35 @@ export class DashboardComponent implements OnInit {
   refreshAllRegistrantsCount(){
     this.registrantsService.getAllRegistrantsCount().subscribe((res) => {
       this.registrantsService.count = res;
+      this.spinner.hide();
     })
   }
 
   refreshAllAttendanceCount(){
     this.attendanceService.getAllAttendanceCount().subscribe((res) => {
       this.attendanceService.count = res;
+      this.spinner.hide();
     })
   }
 
   refreshAllMinistersCount(){
     this.registrantsService.getAllPositionMinistersCount().subscribe((res) => {
       this.registrantsService.ministerscount = res;
+      this.spinner.hide();
     })
   }
 
   refreshAllLayCount(){
     this.registrantsService.getAllPositionLayCount().subscribe((res) => {
       this.registrantsService.laycount = res;
+      this.spinner.hide();
     })
   }
 
   refreshAllVisitorsCount(){
     this.registrantsService.getAllPositionVisitorsCount().subscribe((res) => {
       this.registrantsService.visitorscount = res;
+      this.spinner.hide();
     })
   }
 

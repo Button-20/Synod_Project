@@ -23,7 +23,7 @@
     "nodemon": "^2.0.6",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
-    "unique-random-range": "^1.0.7",
+    "short-id-gen": "^1.1.2",
     "unirest": "^0.6.0",
     "xlsx-to-json": "^0.3.0"
   }

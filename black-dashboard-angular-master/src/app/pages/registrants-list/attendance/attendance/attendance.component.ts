@@ -1,3 +1,4 @@
+import { NgxSpinnerService } from 'ngx-spinner';
 import { Registrant } from './../../../../shared/registrant.model';
 import { RegistrantsService } from './../../../../shared/registrant.service';
 import { User } from '../../../../shared/user.model';
@@ -31,9 +32,10 @@ export class AttendanceComponent implements OnInit {
   page: Number = 1;
   totalRecords: Number;
 
-  constructor(public attendanceService: AttendanceService, private modalService: NgbModal,public userService: UserService, public registrantsService: RegistrantsService, private toastr: ToastrService) { }
+  constructor(private spinner: NgxSpinnerService, public attendanceService: AttendanceService, private modalService: NgbModal,public userService: UserService, public registrantsService: RegistrantsService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
+    this.spinner.show();
     this.startFilter();
     this.refreshRegistrantsList();
     this.refreshAttendanceList();
@@ -42,6 +44,7 @@ export class AttendanceComponent implements OnInit {
   refreshRegistrantsList(){
     this.registrantsService.getRegistrantsList().subscribe((res) => {
       this.registrantsService.registrants = res as Registrant[];
+      this.spinner.hide();
     })
   }
 
@@ -49,6 +52,7 @@ export class AttendanceComponent implements OnInit {
     this.attendanceService.getAttendanceList().subscribe((res) => {
       this.attendanceService.attendance = res as Attendance[];
       this.totalRecords = this.attendanceService.attendance.length;
+      this.spinner.hide();
     })
   }
 

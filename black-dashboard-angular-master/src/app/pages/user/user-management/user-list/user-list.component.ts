@@ -1,11 +1,12 @@
 import { ToastrService } from 'ngx-toastr';
-import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { User } from './../../../../shared/user.model';
 import { UserService } from './../../../../shared/user.service';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import * as moment from 'moment';
 import * as XLSX from 'xlsx';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-user-list',
@@ -32,9 +33,10 @@ export class UserListComponent implements OnInit {
   fileName= 'Registration_Report.xlsx';
 
 
-  constructor(public userService: UserService, private modalService: NgbModal, private modal: NgbActiveModal, private toastr: ToastrService) { }
+  constructor(private spinner: NgxSpinnerService, public userService: UserService, private modalService: NgbModal, private modal: NgbActiveModal, private toastr: ToastrService) { }
 
   ngOnInit(): void {
+    this.spinner.show();
     this.refreshUserList();
   }
 
@@ -42,6 +44,7 @@ export class UserListComponent implements OnInit {
       this.userService.getuserList().subscribe((res) => {
         this.userService.users = res as User[];
         this.totalRecords = this.userService.users.length;
+        this.spinner.hide();
     })
   }
   
@@ -49,6 +52,7 @@ export class UserListComponent implements OnInit {
 		if(confirm('Are you sure you want to delete this record?') == true){
 			this.userService.deleteUser(_id).subscribe((res => {
 				this.refreshUserList();
+        this.modalService.dismissAll();
 			}));
 	  }
 	}
@@ -100,7 +104,8 @@ export class UserListComponent implements OnInit {
 			  res => {
           this.toastr.success('User has been added successfully', 'User Posted');
           this.refreshUserList();
-          this.resetForm(form);			  
+          this.resetForm(form);		
+          this.modalService.dismissAll();
 			  },
 			  err => {
           if (err.status === 422) {
@@ -115,8 +120,9 @@ export class UserListComponent implements OnInit {
 			  res => {
           this.toastr.success('User has been updated successfully', 'User Updated');
           this.refreshUserList();
-          this.resetForm(form);			  
-          },
+          this.resetForm(form);
+          this.modalService.dismissAll();
+        },
           err => {
           if (err.status === 422) {
           this.toastr.warning( this.serverErrorMessages = err.error.join('<br/>'), 'User Update Failed')

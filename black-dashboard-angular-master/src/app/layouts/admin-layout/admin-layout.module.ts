@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { HttpClientModule } from "@angular/common/http";
 import { RouterModule } from "@angular/router";
 import { CommonModule } from "@angular/common";
@@ -15,6 +15,7 @@ import { TypographyComponent } from "../../pages/typography/typography.component
 // import { RtlComponent } from "../../pages/rtl/rtl.component";
 
 import { NgbActiveModal, NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgxSpinnerModule } from "ngx-spinner";
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { NgbActiveModal, NgbModule } from "@ng-bootstrap/ng-bootstrap";
     RouterModule.forChild(AdminLayoutRoutes),
     FormsModule,
     HttpClientModule,
+    NgxSpinnerModule,
     NgbModule,
   ],
   declarations: [
@@ -34,6 +36,7 @@ import { NgbActiveModal, NgbModule } from "@ng-bootstrap/ng-bootstrap";
     MapComponent,
     // RtlComponent
   ],
-  providers:[NgbActiveModal]
+  providers:[NgbActiveModal],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AdminLayoutModule {}

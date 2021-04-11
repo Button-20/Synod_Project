@@ -1,5 +1,5 @@
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { NgModule } from "@angular/core";
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { RouterModule } from "@angular/router";
@@ -24,6 +24,7 @@ import { AttendanceFilterPipe } from './pages/registrants-list/filter/attendance
 import { AttendanceStatementComponent } from './pages/registrants-list/attendance/attendance-statement/attendance-statement.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AuthInterceptor } from './pages/auth/auth.interceptor';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 @NgModule({
   imports: [
@@ -31,6 +32,7 @@ import { AuthInterceptor } from './pages/auth/auth.interceptor';
     FormsModule,
     HttpClientModule,
     ComponentsModule,
+    NgxSpinnerModule,
     NgbModule,
     RouterModule,
     AppRoutingModule,
@@ -61,6 +63,7 @@ import { AuthInterceptor } from './pages/auth/auth.interceptor';
     multi: true
   }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {}

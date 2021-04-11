@@ -2,12 +2,11 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 var ObjectId = require('mongoose').Types.ObjectId;
 var  { Registrant } = require('../models/registrants.model');
-const uniqueRandomRange = require("unique-random-range");
-let rand = uniqueRandomRange(1, 1000);
 var unirest = require('unirest');
+var shortID = require('short-id-gen')
 
 module.exports.register = (req, res, next) => {
-    var randomID = 'ADMCG' + rand();
+    var randomID = 'ADMCG' + Math.floor(Math.random() * 201) + shortID.generate();
     var registrant = new Registrant({
         title: req.body.title,
         firstname: req.body.firstname,
@@ -37,11 +36,18 @@ module.exports.register = (req, res, next) => {
         res.status(422).send(['Ensure all fields were provided.']);
     }
     else{
-        var req = unirest('GET', `https://deywuro.com/api/sms?username=Billme&password=billme123&source=Synod2021&destination=${registrant.phonenumber}&message=Dear ${registrant.firstname} ${registrant.lastname} your synod2021 online registration is successful . Your registration Id is ${randomID}`)
-            .end(function (res) { 
-                if (res.error) throw new Error(res.error); 
-                console.log(res.raw_body);
-         });
+        var req = unirest.post('https://deywuro.com/api/sms')
+        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
+        .send({ 
+            username: 'Billme', 
+            password: 'billme123', 
+            source: 'ADMCG', 
+            destination: registrant.phonenumber, 
+            message: `Dear ${registrant.firstname} '' ${registrant.lastname}, your Synod2021 online registration is successful . Your registration Id is ${registrant.regId}` 
+            })
+        .then((response) => {
+          console.log(response.body)
+        });
 
             registrant.save((err, doc) => {
                 if (!err)
@@ -114,7 +120,7 @@ module.exports.getPositionVisitorsCount = (req, res) => {
 // Finding a member with ID
 module.exports.getID = (req, res) => {
     if (!ObjectId.isValid(req.params.id))
-        return res.status(400).send(`No member found with given id : ${req.params.id}`);
+        return res.status(400).send(`No registrant found with given id : ${req.params.id}`);
 
         Registrant.findById(req.params.id, (err, doc) => {
             if (!err) { res.send(doc); }
@@ -161,6 +167,13 @@ module.exports.put = (req, res) => {
 //             else { console.log('Error in Member Update :' + JSON.stringify(err, undefined, 2))}; 
 //         });
 // }
+
+module.exports.getRegIdCount = (req, res) => {
+    Registrant.countDocuments({regId: req.params.regId}, (err, docs) => {
+        if (!err) { res.send({message: 'Registrant Code Successfully Verified'}) }
+        else { res.send({message: 'Registrant Code Not Valid'})}
+    });
+}
 
 
 // Deleting a member with ID

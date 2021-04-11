@@ -1,3 +1,4 @@
+import { NgxSpinnerService } from 'ngx-spinner';
 import { UserService } from '../../../../shared/user.service';
 import { Attendance } from '../../../../shared/attendance.model';
 import { AttendanceService } from 'src/app/shared/attendance.service';
@@ -25,16 +26,18 @@ export class AttendanceStatementComponent implements OnInit {
   page: Number = 1;
   totalRecords: Number;
 
-  constructor(public attendanceService: AttendanceService, private userService: UserService) { }
+  constructor(private spinner: NgxSpinnerService, public attendanceService: AttendanceService, private userService: UserService) { }
 
   ngOnInit(): void {
+    this.spinner.show();
     this.refreshAttendanceList();
   }
 
   refreshAttendanceList(){
     this.attendanceService.getAttendanceList().subscribe((res) => {
       this.attendanceService.attendance = res as Attendance[];
-      this.totalRecords = this.attendanceService.attendance.length
+      this.totalRecords = this.attendanceService.attendance.length;
+      this.spinner.hide();
     })
   }
 

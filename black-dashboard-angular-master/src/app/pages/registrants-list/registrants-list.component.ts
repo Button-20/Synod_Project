@@ -1,3 +1,4 @@
+import { NgxSpinnerService } from 'ngx-spinner';
 import { Registrant } from './../../shared/registrant.model';
 import { RegistrantsService } from './../../shared/registrant.service';
 import { UserService } from '../../shared/user.service';
@@ -38,9 +39,10 @@ export class RegistrantsListComponent implements OnInit {
   page: Number = 1;
   totalRecords: Number;
 
-  constructor(public registrantsService: RegistrantsService, private toastr: ToastrService, private modalService: NgbModal, private userService: UserService) { }
+  constructor(private spinner: NgxSpinnerService, public registrantsService: RegistrantsService, private toastr: ToastrService, private modalService: NgbModal, private userService: UserService) { }
 
   ngOnInit(): void {
+    this.spinner.show();
     this.refreshMembersList();
     this.startFilter();
   }
@@ -49,6 +51,7 @@ export class RegistrantsListComponent implements OnInit {
     this.registrantsService.getRegistrantsList().subscribe((res) => {
       this.registrantsService.registrants = res as Registrant[];
       this.totalRecords = this.registrantsService.registrants.length;
+      this.spinner.hide();
     })
   }
 
@@ -58,7 +61,8 @@ export class RegistrantsListComponent implements OnInit {
 			  res => {
           this.toastr.success('User has been added successfully', 'User Posted');
           this.refreshMembersList();
-          this.resetForm(form);			  
+          this.resetForm(form);
+          this.modalService.dismissAll();	  
 			  },
 			  err => {
           if (err.status === 422) {
@@ -73,7 +77,8 @@ export class RegistrantsListComponent implements OnInit {
 			  res => {
           this.toastr.success('User has been updated successfully', 'User Updated');
           this.refreshMembersList();
-          this.resetForm(form);			  
+          this.resetForm(form);
+          this.modalService.dismissAll();	  
           },
           err => {
           if (err.status === 422) {
@@ -102,7 +107,7 @@ export class RegistrantsListComponent implements OnInit {
         category: '',
         circuitorganisation: '',
         email: ''
-          }
+        }
       else
       return false;
     }
