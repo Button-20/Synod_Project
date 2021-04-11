@@ -44,7 +44,7 @@
                     </thead>
                     <tbody>
                       <tr *ngFor="let registrant of registrantsService.registrants | memFilter: search | paginate: { id: '_id',
-                      itemsPerPage: 4,
+                      itemsPerPage: 10,
                       currentPage: page,
                       totalItems: totalRecords }">
                         <td>{{registrant.title}}</td>

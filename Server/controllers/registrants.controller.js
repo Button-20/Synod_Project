@@ -37,7 +37,7 @@ module.exports.register = (req, res, next) => {
         res.status(422).send(['Ensure all fields were provided.']);
     }
     else{
-        var req = unirest('GET', `https://deywuro.com/api/sms?username=Billme&password=billme123&source=Synod2021&destination=${registrant.phonenumber}&message=Dear ${registrant.firstname + ' ' + registrant.lastname} your synod2021 online registration is successful . Your registration Id is ${randomID}`)
+        var req = unirest('GET', `https://deywuro.com/api/sms?username=Billme&password=billme123&source=Synod2021&destination=${registrant.phonenumber}&message=Dear ${registrant.firstname} ${registrant.lastname} your synod2021 online registration is successful . Your registration Id is ${randomID}`)
             .end(function (res) { 
                 if (res.error) throw new Error(res.error); 
                 console.log(res.raw_body);
