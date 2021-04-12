@@ -41,7 +41,7 @@ module.exports.register = (req, res, next) => {
         .send({ 
             username: 'Billme', 
             password: 'billme123', 
-            source: 'ADMCG', 
+            source: 'Deywuro', 
             destination: registrant.phonenumber, 
             message: `Dear ${registrant.firstname} '' ${registrant.lastname}, your Synod2021 online registration is successful . Your registration Id is ${registrant.regId}` 
             })
@@ -99,7 +99,7 @@ module.exports.getPositionMinisterCount = (req, res) => {
     });
 }
 
-// Getting all Registrants array with specific classnmae
+// Getting all Registrants array with specific position
 module.exports.getPositionLayCount = (req, res) => {
     Registrant.countDocuments({position: 'Lay'}, (err, docs) => {
         if (!err) { res.json(docs); }
@@ -107,11 +107,27 @@ module.exports.getPositionLayCount = (req, res) => {
     });
 }
 
-// Getting all Registrants array with specific classnmae
+// Getting all Registrants array with specific position
 module.exports.getPositionVisitorsCount = (req, res) => {
     Registrant.countDocuments({position: 'Visitor'}, (err, docs) => {
         if (!err) { res.json(docs); }
         else { console.log('Error in retrieving Visitors Count :' + JSON.stringify(err, undefined, 2))}
+    });
+}
+
+// Getting all Registrants array with specific category
+module.exports.getCategoryDelegateCount = (req, res) => {
+    Registrant.countDocuments({category: 'Delegate'}, (err, docs) => {
+        if (!err) { res.json(docs); }
+        else { console.log('Error in retrieving Delegate Count :' + JSON.stringify(err, undefined, 2))}
+    });
+}
+
+// Getting all Registrants array with specific category
+module.exports.getCategoryObserverCount = (req, res) => {
+    Registrant.countDocuments({category: 'Observer'}, (err, docs) => {
+        if (!err) { res.json(docs); }
+        else { console.log('Error in retrieving Observer Count :' + JSON.stringify(err, undefined, 2))}
     });
 }
 

@@ -22,6 +22,8 @@ export class DashboardComponent implements OnInit {
     this.refreshAllMinistersCount();
     this.refreshAllLayCount();
     this.refreshAllVisitorsCount();
+    this.refreshAllDelegateCount();
+    this.refreshAllObserverCount();
 
 }
   
@@ -59,6 +61,20 @@ export class DashboardComponent implements OnInit {
   refreshAllVisitorsCount(){
     this.registrantsService.getAllPositionVisitorsCount().subscribe((res) => {
       this.registrantsService.visitorscount = res;
+      this.spinner.hide();
+    })
+  }
+
+  refreshAllDelegateCount(){
+    this.registrantsService.getAllCategoryDelegateCount().subscribe((res) => {
+      this.registrantsService.delegatecount = res;
+      this.spinner.hide();
+    })
+  }
+
+  refreshAllObserverCount(){
+    this.registrantsService.getAllCategoryObserverCount().subscribe((res) => {
+      this.registrantsService.observercount = res;
       this.spinner.hide();
     })
   }

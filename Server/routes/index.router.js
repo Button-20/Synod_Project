@@ -27,6 +27,8 @@ router.get('/registrant/countall', jwtHelper.verifyJwtToken, ctrlRegistrant.getA
 router.get('/registrant/ministerscountall', jwtHelper.verifyJwtToken, ctrlRegistrant.getPositionMinisterCount);
 router.get('/registrant/laycountall', jwtHelper.verifyJwtToken, ctrlRegistrant.getPositionLayCount);
 router.get('/registrant/visitorscountall', jwtHelper.verifyJwtToken, ctrlRegistrant.getPositionVisitorsCount);
+router.get('/registrant/delegatecountall', jwtHelper.verifyJwtToken, ctrlRegistrant.getCategoryDelegateCount);
+router.get('/registrant/observercountall', jwtHelper.verifyJwtToken, ctrlRegistrant.getCategoryObserverCount);
 router.get('/registrant/:id', ctrlRegistrant.getID);
 router.put('/registrant/:id', ctrlRegistrant.put);
 router.delete('/registrant/:id', ctrlRegistrant.delete);

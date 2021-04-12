@@ -15,6 +15,8 @@ export class RegistrantsService {
   ministerscount: any;
   laycount: any;
   visitorscount: any;
+  delegatecount: any;
+  observercount: any;
 
 
   noAuthHeader = {headers: new HttpHeaders({'NoAuth' : 'True'})};
@@ -51,6 +53,14 @@ export class RegistrantsService {
 
   getAllPositionVisitorsCount(){
     return this.http.get(environment.apiBaseUrl + '/registrant/visitorscountall');
+  }
+
+  getAllCategoryDelegateCount(){
+    return this.http.get(environment.apiBaseUrl + '/registrant/delegatecountall');
+  }
+
+  getAllCategoryObserverCount(){
+    return this.http.get(environment.apiBaseUrl + '/registrant/observercountall');
   }
 
 
