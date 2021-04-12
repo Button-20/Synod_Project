@@ -3,10 +3,10 @@ const passport = require('passport');
 var ObjectId = require('mongoose').Types.ObjectId;
 var  { Registrant } = require('../models/registrants.model');
 var unirest = require('unirest');
-var shortID = require('short-id-gen')
+var generator = require('generate-serial-number');
 
 module.exports.register = (req, res, next) => {
-    var randomID = 'ADMCG' + Math.floor(Math.random() * 201) + shortID.generate();
+    var randomID = 'ADMCG' + generator.generate(3);
     var registrant = new Registrant({
         title: req.body.title,
         firstname: req.body.firstname,
