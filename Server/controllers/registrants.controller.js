@@ -41,9 +41,9 @@ module.exports.register = (req, res, next) => {
         .send({ 
             username: 'Billme', 
             password: 'billme123', 
-            source: 'Deywuro', 
+            source: 'ADMCG', 
             destination: registrant.phonenumber, 
-            message: `Dear ${registrant.firstname} '' ${registrant.lastname}, your Synod2021 online registration is successful . Your registration Id is ${registrant.regId}` 
+            message: `Dear ${registrant.firstname} ${registrant.lastname}, your Synod2021 online registration is successful . Your registration Id is ${registrant.regId}` 
             })
         .then((response) => {
           console.log(response.body)
@@ -185,8 +185,8 @@ module.exports.put = (req, res) => {
 // }
 
 module.exports.getRegIdCount = (req, res) => {
-    Registrant.countDocuments({regId: req.params.regId}, (err, docs) => {
-        if (!err) { res.send({message: 'Registrant Code Successfully Verified'}) }
+    Registrant.find({regId: {$eq: req.params.regId}}, (err, docs) => {
+        if (!err && docs.length > 0) { res.send({message: 'Registrant Code Successfully Verified'}) }
         else { res.send({message: 'Registrant Code Not Valid'})}
     });
 }
@@ -202,3 +202,26 @@ module.exports.delete = (req, res) => {
             else { console.log('Error in Retrieving Registrant :' + JSON.stringify(err, undefined, 2))};
         });
 }
+
+
+module.exports.sendSMS = (req, res) => {
+    const data = req.body;
+    
+    data.forEach(item => {
+        var req = unirest.post('https://deywuro.com/api/sms')
+        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
+        .send({ 
+            username: 'Billme', 
+            password: 'billme123', 
+            source: 'ADMCG', 
+            destination: item.phonenumber, 
+            message: `Dear ${item.firstname} ${item.lastname}, your Synod2021 online registration is successful . Your registration Id is ${item.regId}` 
+            })
+        .then((response) => {
+          console.log(response.body)
+        });
+
+    });
+    console.log(res)
+}
+

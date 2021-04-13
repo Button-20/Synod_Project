@@ -20,6 +20,8 @@ router.delete('/users/:id', jwtHelper.verifyJwtToken, ctrlUser.delete);
 router.post('/registrant', ctrlRegistrant.register);
 router.get('/getallregistrant', jwtHelper.verifyJwtToken, ctrlRegistrant.get);
 
+// router.post('/sendsms', ctrlRegistrant.sendSMS);
+
 
 // Admin
 router.get('/verifycode/:regId', ctrlRegistrant.getRegIdCount);
