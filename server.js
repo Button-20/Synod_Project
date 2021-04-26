@@ -6,7 +6,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const passport = require('passport');
-const upload = require('express-fileupload');
 const PORT = process.env.PORT || 3000;
 const rtsIndex = require('./routes/index.router');
 
