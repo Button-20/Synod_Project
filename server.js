@@ -28,7 +28,6 @@ app.use(cors({
     }
   }));
 app.use(passport.initialize());
-app.use(upload())
 app.use('/api', rtsIndex);
 
 // error handler
