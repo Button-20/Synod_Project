@@ -6,11 +6,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const passport = require('passport');
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 const rtsIndex = require('./routes/index.router');
 
 var app = express();
-var allowedDomains = ['http://localhost:4200', 'https://egroups-fa67c.web.app/'];
+var allowedDomains = ['http://localhost:4200', 'https://egroups.web.app/'];
 
 // middleware
 app.use(bodyParser.json());
