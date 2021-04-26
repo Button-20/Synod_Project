@@ -8,7 +8,7 @@ const cors = require('cors');
 const passport = require('passport');
 const upload = require('express-fileupload');
 const host = '0.0.0.0';
-const port = process.env.PORT || 5000;
+const port = 5000;
 const rtsIndex = require('./routes/index.router');
 
 var app = express();
