@@ -7,8 +7,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const passport = require('passport');
 const upload = require('express-fileupload');
-const host = '0.0.0.0';
-const port = 5000;
+const PORT = process.env.PORT || 3000;
 const rtsIndex = require('./routes/index.router');
 
 var app = express();
@@ -45,4 +44,4 @@ app.use((err, req, res, next) => {
 });
 
 // start server
-app.listen(host, port, () => console.log(`Server started at port : ${port}`));
+app.listen(PORT, () => console.log(`Server started at port : ${PORT}`));
