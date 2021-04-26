@@ -34,4 +34,4 @@ app.use((err, req, res, next) => {
 });
 
 // start server
-app.listen(port, host, () => console.log(`Server started at port : ${port}`));
+app.listen(port, () => console.log(`Server started at port : ${port}`));
