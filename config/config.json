@@ -1,7 +1,7 @@
 {
     "development": {
         "PORT": 3000,
-        "MONGODB_URI": "mongodb://localhost:27017/EBMMC",
+        "MONGODB_URI": "mongodb+srv://admin:sound.it@egroups.oc91c.mongodb.net/Egroups?retryWrites=true&w=majority",
         "JWT_SECRET": "SECRET#123",
         "JWT_EXP": "1h"
     },

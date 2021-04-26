@@ -27,7 +27,8 @@ app.use(cors({
       }
       return callback(null, true);
     }
-  }));app.use(passport.initialize());
+  }));
+app.use(passport.initialize());
 app.use(upload())
 app.use('/api', rtsIndex);
 
