@@ -77,9 +77,9 @@ userSchema.methods.verifyPassword = function (password) {
 
 userSchema.methods.generateJwt = function () {
     return jwt.sign({ _id: this._id, role: this.role, classname: this.classname, pic: this.pic, loginPermission: this.loginPermission},
-        'SECRET#123',
+        process.env.JWT_SECRET,
     {
-        expiresIn: '1h'
+        expiresIn: process.env.JWT_EXP
     });
 }
 

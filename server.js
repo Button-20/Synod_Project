@@ -1,4 +1,4 @@
-// require('./config/config');
+require('./config/config');
 require('./models/db');
 require('./config/passportconfig');
 
@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 8000;
 const rtsIndex = require('./routes/index.router');
 
 var app = express();
-var allowedDomains = ['http://localhost:4200', 'https://egroups.web.app/'];
+var allowedDomains = ['http://localhost:4200', 'https://evening-island-44720.web.app/'];
 
 // middleware
 app.use(bodyParser.json());
