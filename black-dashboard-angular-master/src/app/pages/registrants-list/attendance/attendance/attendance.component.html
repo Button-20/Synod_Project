@@ -83,9 +83,26 @@
         <div class="form-group">
             <label for="participant">Participants</label>
             <div class="input-group">
-                <select id="participant" class="form-control" placeholder="Participant's Name" name="participant" #participant="ngModel" [(ngModel)]="model.participant" [ngClass]="{'is-invalid' : participant.touched && !participant.valid }" required>
+                <!-- <select id="participant" class="form-control" placeholder="Participant's Name" name="participant" #participant="ngModel" [(ngModel)]="model.participant" [ngClass]="{'is-invalid' : participant.touched && !participant.valid }" required>
                     <option *ngFor="let registrant of registrantsService.registrants">{{registrant.firstname + space + registrant.lastname + space + registrant.othername }}</option>
-                </select>
+                </select> -->
+                <input id="participant" class="form-control" placeholder="Participant's Name" name="participant" #participant="ngModel" [(ngModel)]="selected" [ngClass]="{'is-invalid' : participant.touched && !participant.valid }" required
+                      [typeahead]="fullname"
+                      [isAnimated]="true"
+                      class="form-control">
+                
+                <!-- <ng-template #customListTemplate let-matches="registrant" let-query="query" let-typeaheadTemplateMethods>
+                  <ul class="custom-list-group" [class.dropdown-menu]="isBs3">
+                    <li class="custom-list-group-item"
+                        *ngFor="let registrant of fullname"
+                        [class.active]="typeaheadTemplateMethods.isActive(registrant)"
+                        (click)="typeaheadTemplateMethods.selectMatch(registrant, $event)"
+                        (mouseenter)="typeaheadTemplateMethods.selectActive(registrant)">
+                      {{ registrant }}
+                    </li>
+                  </ul>
+                </ng-template> -->
+
                 <div *ngIf="participant.invalid && (participant.dirty || participant.touched)" class="invalid-feedback">
                     <div *ngIf="participant.errors.required">
                     This field is required

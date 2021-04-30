@@ -10,6 +10,7 @@ import { AttendanceService } from '../../../../shared/attendance.service';
 import { Component, OnInit } from '@angular/core';
 import { Attendance } from 'src/app/shared/attendance.model';
 import * as moment from 'moment';
+import { isBs3 } from 'ngx-bootstrap/utils';
 
 @Component({
   selector: 'app-attendance',
@@ -31,6 +32,10 @@ export class AttendanceComponent implements OnInit {
   search: '';
   page: Number = 1;
   totalRecords: Number;
+  isBs3 = isBs3();
+  selected: string;
+  fullname: string[] = [];
+
 
   constructor(private spinner: NgxSpinnerService, public attendanceService: AttendanceService, private modalService: NgbModal,public userService: UserService, public registrantsService: RegistrantsService, private toastr: ToastrService) { }
 
@@ -39,11 +44,17 @@ export class AttendanceComponent implements OnInit {
     this.startFilter();
     this.refreshRegistrantsList();
     this.refreshAttendanceList();
+    // this.createnewJSONarray();
   }
 
   refreshRegistrantsList(){
     this.registrantsService.getRegistrantsList().subscribe((res) => {
       this.registrantsService.registrants = res as Registrant[];
+      this.registrantsService.registrants.forEach(element => {
+        var name = element.firstname + ' ' + element.lastname + ' ' + element.othername;
+        this.fullname.push(name);
+        // console.log(this.fullname);
+      })
       this.spinner.hide();
     })
   }
@@ -144,4 +155,10 @@ export class AttendanceComponent implements OnInit {
       return moment(date).format("yyyy-MM-DD")
     }
 
+    // createnewJSONarray(){
+    //   this.registrantsService.registrants.forEach(element => {
+    //     var name = element.firstname + ' ' + element.lastname + ' ' + element.othername;
+    //     this.fullname.push(name);
+    //   });
+    // }
 }

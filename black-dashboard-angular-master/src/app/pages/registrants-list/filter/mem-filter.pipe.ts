@@ -16,6 +16,7 @@ export class MemFilterPipe implements PipeTransform {
       registrant.lastname.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()) ||
       registrant.regId.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()) ||
       registrant.category.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()) ||
+      registrant.circuit.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()) ||
       registrant.phonenumber.toString().includes(searchTerm.toLocaleLowerCase()) 
 
     )
