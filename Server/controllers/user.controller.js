@@ -5,6 +5,10 @@ const User = mongoose.model('User');
 
 module.exports.register = (req, res, next) => {
     var user = new User();
+<<<<<<< HEAD
+=======
+    user.classname = req.body.classname;
+>>>>>>> fc88cec46f97d1863f4c718c87b713ceed9718ad
     user.fullname = req.body.fullname;
     user.password = req.body.password;
     user.phonenumber = req.body.phonenumber;
@@ -13,7 +17,11 @@ module.exports.register = (req, res, next) => {
     user.address = req.body.address;
     user.loginPermission = req.body.loginPermission;
     
+<<<<<<< HEAD
     if (req.body.fullname == null || req.body.fullname == "" || req.body.password == null || req.body.password == "" || req.body.phonenumber == null || req.body.phonenumber == "" || req.body.email == null || req.body.email == "" || req.body.occupation == null || req.body.occupation == "" || req.body.address == null || req.body.address == "")
+=======
+    if (req.body.classname == null || req.body.classname == "" || req.body.fullname == null || req.body.fullname == "" || req.body.password == null || req.body.password == "" || req.body.phonenumber == null || req.body.phonenumber == "" || req.body.email == null || req.body.email == "" || req.body.occupation == null || req.body.occupation == "" || req.body.address == null || req.body.address == "" || req.body.loginPermission == null || req.body.loginPermission == "")
+>>>>>>> fc88cec46f97d1863f4c718c87b713ceed9718ad
     {
         res.status(422).send(['Ensure all fields were provided.']);
     }
@@ -69,6 +77,10 @@ module.exports.put = (req, res) => {
         return res.status(400).send(`No member found with given id : ${req.params.id}`);
         
         var user = {
+<<<<<<< HEAD
+=======
+            classname: req.body.classname,
+>>>>>>> fc88cec46f97d1863f4c718c87b713ceed9718ad
             fullname: req.body.fullname,
             phonenumber: req.body.phonenumber,
             email: req.body.email,

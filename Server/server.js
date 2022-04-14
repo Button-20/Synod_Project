@@ -1,11 +1,19 @@
+<<<<<<< HEAD
 // require('./config/config');
 require('./models/db');
 require('./config/passportconfig');
 const PORT = process.env.PORT || 3000;
+=======
+require('./config/config');
+require('./models/db');
+require('./config/passportconfig');
+
+>>>>>>> fc88cec46f97d1863f4c718c87b713ceed9718ad
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const passport = require('passport');
+<<<<<<< HEAD
 const upload = require('express-fileupload');
 
 const rtsIndex = require('./routes/index.router');
@@ -13,6 +21,13 @@ const rtsIndex = require('./routes/index.router');
 var app = express();
 var allowedDomains = ['http://localhost:4203', 'http://localhost:4200', 'http://localhost:4202', 'https://synod-admin.web.app', 'https://synod-admcg.web.app'];
 
+=======
+const PORT = process.env.PORT || 8000;
+const rtsIndex = require('./routes/index.router');
+
+var app = express();
+var allowedDomains = ['http://localhost:4200', 'https://alias-egroups.web.app'];
+>>>>>>> fc88cec46f97d1863f4c718c87b713ceed9718ad
 
 // middleware
 app.use(bodyParser.json());
@@ -30,7 +45,10 @@ app.use(cors({
     }
   }));
 app.use(passport.initialize());
+<<<<<<< HEAD
 app.use(upload())
+=======
+>>>>>>> fc88cec46f97d1863f4c718c87b713ceed9718ad
 app.use('/api', rtsIndex);
 
 // error handler

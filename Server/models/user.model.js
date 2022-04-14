@@ -3,6 +3,13 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 var userSchema = new mongoose.Schema({
+<<<<<<< HEAD
+=======
+    classname: {
+        type: String,
+        required: 'Class Name can\'t be empty'
+    },
+>>>>>>> fc88cec46f97d1863f4c718c87b713ceed9718ad
     fullname: {
         type: String,
         required: 'Fullname can\'t be empty'
@@ -72,10 +79,17 @@ userSchema.methods.verifyPassword = function (password) {
 };
 
 userSchema.methods.generateJwt = function () {
+<<<<<<< HEAD
     return jwt.sign({ _id: this._id, role: this.role, pic: this.pic, loginPermission: this.loginPermission},
         "SECRET#123",
     {
         expiresIn: "1h"
+=======
+    return jwt.sign({ _id: this._id, role: this.role, classname: this.classname, pic: this.pic, loginPermission: this.loginPermission},
+        process.env.JWT_SECRET,
+    {
+        expiresIn: process.env.JWT_EXP
+>>>>>>> fc88cec46f97d1863f4c718c87b713ceed9718ad
     });
 }
 

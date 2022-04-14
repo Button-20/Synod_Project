@@ -5,11 +5,23 @@ var ObjectId = require('mongoose').Types.ObjectId;
 // Registering Member Attendance
 module.exports.register = (req, res, next) => {
     var attendance = new Attendance({
+<<<<<<< HEAD
         participant: req.body.participant,
         temperature: req.body.temperature,
         date: req.body.date
     });
     if (req.body.participant == null || req.body.participant == "" || req.body.temperature == null || req.body.temperature == ""){
+=======
+    userid: req.body.userid,
+    classname: req.body.classname,
+    membername: req.body.membername,
+    date: req.body.date,
+    temperature: req.body.temperature,
+    event: req.body.event,
+    present: req.body.present
+    });
+    if (req.body.userid == null || req.body.userid == "" || req.body.classname == null || req.body.classname == "" || req.body.membername == null || req.body.membername == "" || req.body.date == null || req.body.date == "" || req.body.event == null || req.body.event == ""){
+>>>>>>> fc88cec46f97d1863f4c718c87b713ceed9718ad
         res.status(422).send(['Ensure all fields were provided.']);
     }else{
             attendance.save((err, doc) => {
@@ -86,8 +98,18 @@ module.exports.put = (req, res) => {
         return res.status(400).send(`No Attendance found with given id : ${req.params.id}`);
         
         var attendance = {
+<<<<<<< HEAD
             participant: req.body.participant,
             temperature: req.body.temperature,
+=======
+            userid: req.body.userid,
+            classname: req.body.classname,
+            membername: req.body.membername,
+            date: req.body.date,
+            temperature: req.body.temperature,
+            event: req.body.event,
+            present: req.body.present
+>>>>>>> fc88cec46f97d1863f4c718c87b713ceed9718ad
         };
         
         Attendance.findByIdAndUpdate(req.params.id, {$set: attendance}, {new: true}, (err, doc) => {
