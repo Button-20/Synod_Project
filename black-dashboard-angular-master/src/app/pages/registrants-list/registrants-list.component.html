@@ -1,0 +1,235 @@
+<ngx-spinner></ngx-spinner>
+<div class=" content">
+    <div class=" row">
+        <div class=" col-md-12">
+            <div class=" card card-plain">
+              <div class=" card-header">
+                <h4 class=" card-title">List of Registrants</h4>
+                <p class=" category">List of Registrants within the Database</p>
+                <div class="row justify-content-between">
+                    <div class="col-6 form-group has-search">
+                        <input type="hidden" class="form-control" placeholder="Search" style="width: 250px;" [(ngModel)]="memTerm">
+                        <input type="text" class="form-control" placeholder="Search" style="width: 250px;" [(ngModel)]="search">
+                    </div>
+                    <div class="col-6 text-right" *ngIf="userbutton">
+                        <!-- <button  class="btn btn-danger" (click)="open(content, membersForm)">Add Members</button> -->
+						<div ngbDropdown class="btn-group d-inline">
+                            <button class="btn btn-info btn-sm" id="dropdownBasic2" ngbDropdownToggle>Export As</button>
+                            <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
+                              <button ngbDropdownItem (click)="exportexcel()">Excel</button>
+                              <!-- <button ngbDropdownItem (click)="downloadPDF()">PDF</button> -->
+                            </div>
+                    	</div>
+
+                    </div>
+                </div>
+            </div>
+              <div class=" card-body">
+                <div class=" table-hover">
+                  <table class=" table tablesorter" id="content" #content>
+                    <thead class=" text-primary">
+                      <tr>
+                        <th>Title</th>
+                        <th>First Name</th>
+                        <th>Other Name</th>
+                        <th>Last Name</th>
+                        <th>Date Of Birth</th>
+                        <th>Phone Number</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Registration ID</th>
+                        <th>Circuit</th>
+                        <th>Circuit Organisation</th>
+                        <th>Category</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let registrant of registrantsService.registrants | memFilter: search | paginate: { id: '_id',
+                      itemsPerPage: 50,
+                      currentPage: page,
+                      totalItems: totalRecords }">
+                        <td>{{registrant.title}}</td>
+                        <td>{{registrant.firstname}}</td>
+                        <td>{{registrant.othername}}</td>
+                        <td>{{registrant.lastname}}</td>
+                        <td>{{registrant.dateofbirth | date: "yyyy/M/dd"}}</td>
+                        <td>{{registrant.phonenumber}}</td>
+                        <td>{{registrant.email}}</td>
+                        <td>{{registrant.position}}</td>
+                        <td>{{registrant.regId}}</td>
+                        <td>{{registrant.circuit}}</td>
+                        <td>{{registrant.circuitorganisation}}</td>
+                        <td>{{registrant.category}}</td>
+                        <!-- <td class="text-center">
+                                <i class="btn btn-default btn-link tim-icons icon-pencil" ngbTooltip="Edit Task" (click)="onEdit(content, mem)"></i>
+                                <i class="btn btn-default btn-link tim-icons icon-trash-simple" ngbTooltip="Delete Task" (click)="onDelete(mem._id)"></i>
+                        </td> -->
+                      </tr>
+                    </tbody>
+				  </table>
+				<pagination-controls  id="_id"
+					(pageChange)="page = $event"
+					directionLinks="true"
+					autoHide="true"
+					responsive="true"
+					previousLabel="Previous"
+					nextLabel="Next"
+					screenReaderPaginationLabel="Pagination"
+					screenReaderPageLabel="page"
+					screenReaderCurrentLabel="You're on page">
+			  	</pagination-controls>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+</div>
+
+
+
+
+<ng-template #content let-modal>
+<div class="modal-content ">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Members Form</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form #membersForm="ngForm" (ngSubmit)="onSubmit(membersForm)">
+        
+        <input type="hidden" name="classname" class="form-control" #classname="ngModel" [(ngModel)]="model.classname">
+				<input type="hidden" name="_id" class="form-control" #_id="ngModel" [(ngModel)]="model._id">
+	
+				<div class="form-row">
+					<div class="col">
+					  <label>First Name</label>
+					  <input id="firstname" name="firstname" class="form-control" #firstname="ngModel" [(ngModel)]="model.firstname" type="text" placeholder="Type Your First Name" minlength="4"
+						autocomplete="off" [ngClass]="{'is-invalid' : firstname.touched && !firstname.valid }" required/>
+						<div *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)" class="invalid-feedback">
+						  <div *ngIf="firstname.errors.required">
+						  This field is required
+						  </div>
+						  <div *ngIf="firstname.errors.minlength">
+							Minimum 4 characters
+						  </div>
+					   </div>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="col">
+					  <label>Last Name</label>
+					  <input id="lastname" name="lastname" class="form-control" #lastname="ngModel" [(ngModel)]="model.lastname" type="text" placeholder="Type Your Last Name" minlength="4"
+						autocomplete="off" [ngClass]="{'is-invalid' : lastname.touched && !lastname.valid }" required/>
+						<div *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)" class="invalid-feedback">
+						  <div *ngIf="lastname.errors.required">
+						  This field is required
+						  </div>
+						  <div *ngIf="lastname.errors.minlength">
+							Minimum 4 characters
+						  </div>
+					   </div>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="col">
+					  <label>Other Name</label>
+					  <input id="othername" name="othername" class="form-control" #othername="ngModel" [(ngModel)]="model.othername" type="text" placeholder="Type Your Other Name" minlength="4"
+						autocomplete="off" [ngClass]="{'is-invalid' : othername.touched && !othername.valid }" required/>
+						<div *ngIf="othername.invalid && (othername.dirty || othername.touched)" class="invalid-feedback">
+						  <div *ngIf="othername.errors.required">
+						  This field is required
+						  </div>
+						  <div *ngIf="othername.errors.minlength">
+							Minimum 4 characters
+						  </div>
+					   </div>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="col">
+					  <label>Gender:</label>
+					  <div class="form-check">
+						<input class="form-check-input" type="radio" name="gender" id="exampleRadios1" value="Male" [(ngModel)]="model.gender" checked>
+						<label class="form-check-label" for="exampleRadios1">
+						  Male
+						</label>
+					  </div>
+					  <div class="form-check">
+						<input class="form-check-input" type="radio" name="gender" id="exampleRadios2" value="Female" [(ngModel)]="model.gender">
+						<label class="form-check-label" for="exampleRadios2">
+						  Female
+						</label>
+					  </div>
+					</div>
+				</div>
+				
+				<div class="form-row">
+					<div class="col">
+					<label>Email</label>
+					<input id="email" name="email" class="form-control" #email="ngModel" [(ngModel)]="model.email" type="email" placeholder="Type Your Email"
+					  autocomplete="off" [pattern]="emailRegex"  [ngClass]="{'is-invalid' : email.touched && !email.valid }" required/>
+					  <div *ngIf="email.invalid && (email.dirty || email.touched)" class="invalid-feedback">
+						<div *ngIf="email.errors.required">
+						This field is required
+						</div>
+						<div *ngIf="email.errors.pattern">
+						Invalid Email
+					    </div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="form-row">
+			<div class="col">
+			  <label>Digital Address</label>
+			  <input id="digitaladdress" name="digitaladdress" class="form-control" #digitaladdress="ngModel" [(ngModel)]="model.digitaladdress" type="text" placeholder="Type Your Digital Address" minlength="4"
+				autocomplete="off" [ngClass]="{'is-invalid' : digitaladdress.touched && !digitaladdress.valid }" required/>
+				<div *ngIf="digitaladdress.invalid && (digitaladdress.dirty || digitaladdress.touched)" class="invalid-feedback">
+				  <div *ngIf="digitaladdress.errors.required">
+				  This field is required
+				  </div>
+				  <div *ngIf="digitaladdress.errors.minlength">
+					Minimum 4 characters
+				  </div>
+			   </div>
+			</div>
+		</div>
+				<div class="form-row">
+					<div class="col">
+					  <label>Phone Number</label>
+					  <input id="phonenumber" name="phonenumber" class="form-control" #phonenumber="ngModel" [(ngModel)]="model.phonenumber" type="tel" placeholder="Type Your Phone Number" maxlength="10"
+						autocomplete="off" [ngClass]="{'is-invalid' : phonenumber.touched && !phonenumber.valid }" required/>
+						<div *ngIf="phonenumber.invalid && (phonenumber.dirty || phonenumber.touched)" class="invalid-feedback">
+						  <div *ngIf="phonenumber.errors.required">
+						  This field is required
+						  </div>
+						  <div *ngIf="phonenumber.errors.minlength">
+							Minimum 10 characters
+						  </div>
+					   </div>
+					</div>
+				  </div>
+				
+				<div class="form-row">
+					<div class="col">
+					  <label>Date Of Birth</label>
+					  <input id="dateofbirth" name="dateofbirth" class="form-control" #dateofbirth="ngModel" [(ngModel)]="model.dateofbirth" type="date"
+						autocomplete="off" [ngClass]="{'is-invalid' : dateofbirth.touched && !dateofbirth.valid }" required/>
+						<div *ngIf="dateofbirth.invalid && (dateofbirth.dirty || dateofbirth.touched)" class="invalid-feedback">
+						  <div *ngIf="dateofbirth.errors.required">
+						  This field is required
+						  </div>
+					   </div>
+					</div>
+				  </div>
+
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-info" (click)="onSubmit(membersForm)">Save</button>
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cancel click')">Cancel</button>
+    </div>
+</div>
+  </ng-template>

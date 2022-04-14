@@ -1,0 +1,16 @@
+POST https://evening-island-44720.herokuapp.com/api/register
+Content-Type: application/json
+
+{
+    "title": "Bro",
+    "firstname": "Jason",
+    "othername": "Nii",
+    "lastname": "Addy",
+    "email": "jasonaddy51@gmail.com",
+    "dateofbirth": "1979-12-22",
+    "phonenumber": "0550653404",
+    "position":"Lay",
+    "circuit": "Accra",
+    "category": "Delegate",
+    "circuitorganisation": "YOUTH FELLOWSHIP"
+}

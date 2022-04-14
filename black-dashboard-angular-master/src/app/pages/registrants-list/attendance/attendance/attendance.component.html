@@ -1,0 +1,147 @@
+<ngx-spinner></ngx-spinner>
+<div class=" content">
+    <div class=" row">
+        <div class=" col-md-12">
+            <div class=" card card-plain">
+              <div class=" card-header">
+                <h4 class=" card-title">List of Attendance</h4>
+                <p class=" category">List of Member's Attendance within the Database</p>
+                <div class="row justify-content-between">
+                    <div class="col-6 form-group has-search">
+                        <input type="hidden" class="form-control" placeholder="Search" style="width: 250px;" [(ngModel)]="memTerm">
+                        <input type="text" class="form-control" placeholder="Search" style="width: 250px;" [(ngModel)]="search">
+                    </div>
+                    <div class="col-6 text-right" *ngIf="userbutton">
+                        <button class="btn btn-danger" (click)="open(content, attendanceForm)">Add Attendance</button>
+                    </div>
+                </div>
+            </div>
+              <div class=" card-body">
+                <div class="table-hover">
+                  <table class=" table tablesorter">
+                    <thead class=" text-primary">
+                      <tr>
+                        <th>Participants</th>
+                        <th>Date</th>
+                        <th>Temperature</th>
+                        <!-- <th class=" text-center">Actions</th> -->
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let attendance of attendanceService.attendance | attendanceFilter: search | paginate: { id: '_id',
+                      itemsPerPage: 7,
+                      currentPage: page,
+                      totalItems: totalRecords }">
+                        <td>{{attendance.participant}}</td>
+                        <td>{{attendance.date | date: "yyyy/M/dd"}}</td>
+                        <td>{{attendance.temperature}}°C</td>
+                        <td>
+                          <button class="btn btn-info btn-sm" *ngIf="attendance.present == true">Yes</button>
+                          <button class="btn btn-danger btn-sm" *ngIf="attendance.present == false">No</button>
+                      </td>
+                        <!-- <td class="text-center">
+                                <i class="btn btn-default btn-link tim-icons icon-pencil" ngbTooltip="Edit Task" (click)="onEdit(content, attendance)"></i>
+                                <i class="btn btn-default btn-link tim-icons icon-trash-simple" ngbTooltip="Delete Task" (click)="onDelete(attendance._id)"></i>
+                        </td> -->
+                      </tr>
+                    </tbody>
+                  </table>
+                  <pagination-controls  id="_id"
+                  (pageChange)="page = $event"
+                  directionLinks="true"
+                  autoHide="true"
+                  responsive="true"
+                  previousLabel="Previous"
+                  nextLabel="Next"
+                  screenReaderPaginationLabel="Pagination"
+                  screenReaderPageLabel="page"
+                  screenReaderCurrentLabel="You're on page">
+                </pagination-controls>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+</div>
+
+
+
+
+<ng-template #content let-modal>
+    <div class="modal-content ">
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Attendance Form</h4>
+          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form #attendanceForm="ngForm" (ngSubmit)="onSubmit(attendanceForm)">
+            
+            <input type="hidden" name="_id" class="form-control" #_id="ngModel" [(ngModel)]="model._id">
+    
+        <div class="form-group">
+            <label for="participant">Participants</label>
+            <div class="input-group">
+                <!-- <select id="participant" class="form-control" placeholder="Participant's Name" name="participant" #participant="ngModel" [(ngModel)]="model.participant" [ngClass]="{'is-invalid' : participant.touched && !participant.valid }" required>
+                    <option *ngFor="let registrant of registrantsService.registrants">{{registrant.firstname + space + registrant.lastname + space + registrant.othername }}</option>
+                </select> -->
+                <input id="participant" class="form-control" placeholder="Participant's Name" name="participant" #participant="ngModel" [(ngModel)]="selected" [ngClass]="{'is-invalid' : participant.touched && !participant.valid }" required
+                      [typeahead]="fullname"
+                      [isAnimated]="true"
+                      class="form-control">
+                
+                <!-- <ng-template #customListTemplate let-matches="registrant" let-query="query" let-typeaheadTemplateMethods>
+                  <ul class="custom-list-group" [class.dropdown-menu]="isBs3">
+                    <li class="custom-list-group-item"
+                        *ngFor="let registrant of fullname"
+                        [class.active]="typeaheadTemplateMethods.isActive(registrant)"
+                        (click)="typeaheadTemplateMethods.selectMatch(registrant, $event)"
+                        (mouseenter)="typeaheadTemplateMethods.selectActive(registrant)">
+                      {{ registrant }}
+                    </li>
+                  </ul>
+                </ng-template> -->
+
+                <div *ngIf="participant.invalid && (participant.dirty || participant.touched)" class="invalid-feedback">
+                    <div *ngIf="participant.errors.required">
+                    This field is required
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="form-group">
+            <label for="date">Date</label>
+            <div class="input-group">
+                <input id="date" name="date" class="form-control" #date="ngModel" [(ngModel)]="model.date" type="date"
+                    autocomplete="off" [ngClass]="{'is-invalid' : date.touched && !date.valid }" required/>
+                    <div *ngIf="date.invalid && (date.dirty || date.touched)" class="invalid-feedback">
+                    <div *ngIf="date.errors.required">
+                    This field is required
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="temperature">Temperature</label>
+            <div class="input-group">
+                <input id="temperature" name="temperature" class="form-control" #temperature="ngModel" [(ngModel)]="model.temperature" type="number"
+                    autocomplete="off" [ngClass]="{'is-invalid' : temperature.touched && !temperature.valid }" required/>
+                    <div *ngIf="temperature.invalid && (temperature.dirty || temperature.touched)" class="invalid-feedback">
+                    <div *ngIf="temperature.errors.required">
+                    This field is required
+                    </div>
+                </div>
+            </div>
+        </div>
+ 
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-info" (click)="onSubmit(attendanceForm)">Save</button>
+          <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cancel click')">Cancel</button>
+        </div>
+    </div>
+      </ng-template>
