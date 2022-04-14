@@ -2,8 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const ctrlUser = require("../controllers/user.controller");
-const ctrlMember = require("../controllers/member.controller");
-const ctrlDues = require("../controllers/dues.controller");
+const ctrlRegistrant = require("../controllers/registrants.controller");
 const ctrlAttendance = require("../controllers/attendance.controller");
 
 const jwtHelper = require("../config/jwtHelper");
