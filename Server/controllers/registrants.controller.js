@@ -5,7 +5,7 @@ var  { Registrant } = require('../models/registrants.model');
 var unirest = require('unirest');
 var generator = require('generate-serial-number');
 
-module.exports.register = (req, res, next) => {
+module.exports.register = async (req, res, next) => {
     var randomID = 'ADMCG' + generator.generate(3);
     var registrant = new Registrant({
         title: req.body.title,
@@ -36,7 +36,7 @@ module.exports.register = (req, res, next) => {
         res.status(422).send(['Ensure all fields were provided.']);
     }
     else{
-        var req = unirest.post('https://deywuro.com/api/sms')
+        var req = await unirest.post('https://deywuro.com/api/sms')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .send({ 
             username: 'Billme', 
@@ -204,11 +204,11 @@ module.exports.delete = (req, res) => {
 }
 
 
-module.exports.sendSMS = (req, res) => {
-    const data = req.body;
+module.exports.sendSMS = async (req, res) => {
+    const data = await req.body;
     
     data.forEach(item => {
-        var req = unirest.post('https://deywuro.com/api/sms')
+        var req = await unirest.post('https://deywuro.com/api/sms')
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .send({ 
             username: 'Billme', 
