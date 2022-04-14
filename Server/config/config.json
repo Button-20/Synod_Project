@@ -1,17 +1,12 @@
 {
-    "development": {
-<<<<<<< HEAD
-        "PORT": 3000,
-        "MONGODB_URI": "mongodb://localhost:27017/EBMMC",
-=======
-        "MONGODB_URI": "mongodb+srv://admin:sound.it@egroups.oc91c.mongodb.net/Egroups?retryWrites=true&w=majority",
-        "JWT_SECRET": "SECRET#123",
-        "JWT_EXP": "1h"
-    },
-    "production": {
-        "MONGODB_URI": "mongodb+srv://admin:sound.it@egroups.oc91c.mongodb.net/Egroups?retryWrites=true&w=majority",
->>>>>>> fc88cec46f97d1863f4c718c87b713ceed9718ad
-        "JWT_SECRET": "SECRET#123",
-        "JWT_EXP": "1h"
-    }
+  "development": {
+    "MONGODB_URI": "mongodb+srv://admin:sound.it@egroups.oc91c.mongodb.net/Egroups?retryWrites=true&w=majority",
+    "JWT_SECRET": "SECRET#123",
+    "JWT_EXP": "1h"
+  },
+  "production": {
+    "MONGODB_URI": "mongodb+srv://admin:sound.it@egroups.oc91c.mongodb.net/Egroups?retryWrites=true&w=majority",
+    "JWT_SECRET": "SECRET#123",
+    "JWT_EXP": "1h"
+  }
 }
