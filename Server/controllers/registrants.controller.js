@@ -44,28 +44,30 @@ module.exports.register = (req, res, next) => {
   ) {
     res.status(422).send(["Ensure all fields were provided."]);
   } else {
-    var req = unirest
-      .post("https://deywuro.com/api/sms")
-      .headers({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      })
-      .send({
-        username: "Billme",
-        password: "billme123",
-        source: "ADMCG",
-        destination: registrant.phonenumber,
-        message: `Dear ${registrant.firstname} ${registrant.lastname}, your Synod2021 online registration is successful . Your registration Id is ${registrant.regId}`,
-      })
-      .then((response) => {
-        console.log(response.body);
-      });
-
     registrant.save((err, doc) => {
-      if (!err) res.send(doc);
-      else {
+      if (!err) {
+        var req = unirest
+          .post("https://deywuro.com/api/sms")
+          .headers({
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          })
+          .send({
+            username: "Billme",
+            password: "billme123",
+            source: "ADMCG",
+            destination: registrant.phonenumber,
+            message: `Dear ${registrant.firstname} ${registrant.lastname}, your Synod2022 online registration is successful . Your registration Id is ${registrant.regId}`,
+          })
+          .then((response) => {
+            console.log(response.body);
+          });
+        res.send(doc);
+      } else {
         if (err.code == 11000)
-          res.status(422).send(["Duplicate email address found."]);
+          res
+            .status(422)
+            .send(["Duplicate email address or phone number found."]);
         else return next(err);
       }
     });
@@ -293,7 +295,7 @@ module.exports.sendSMS = (req, res) => {
         password: "billme123",
         source: "ADMCG",
         destination: item.phonenumber,
-        message: `Dear ${item.firstname} ${item.lastname}, your Synod2021 online registration is successful . Your registration Id is ${item.regId}`,
+        message: `Dear ${item.firstname} ${item.lastname}, your Synod2022 online registration is successful . Your registration Id is ${item.regId}`,
       })
       .then((response) => {
         console.log(response.body);

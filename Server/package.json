@@ -15,13 +15,16 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-fileupload": "^1.2.0",
     "express-jwt": "^6.0.0",
+    "generate-serial-number": "0.0.3",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.12.5",
+    "mongoose": "^5.10.7",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.7",
+    "nodemon": "^2.0.6",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
+    "unirest": "^0.6.0",
     "xlsx-to-json": "^0.3.0"
   }
 }

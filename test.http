@@ -1,4 +1,4 @@
-POST https://evening-island-44720.herokuapp.com/api/register
+POST https://evening-island-44720.herokuapp.com/api/registrant
 Content-Type: application/json
 
 {
@@ -6,9 +6,9 @@ Content-Type: application/json
     "firstname": "Jason",
     "othername": "Nii",
     "lastname": "Addy",
-    "email": "jasonaddy51@gmail.com",
+    "email": "dama232@gmail.com",
     "dateofbirth": "1979-12-22",
-    "phonenumber": "0550653404",
+    "phonenumber": "0207410032",
     "position":"Lay",
     "circuit": "Accra",
     "category": "Delegate",
